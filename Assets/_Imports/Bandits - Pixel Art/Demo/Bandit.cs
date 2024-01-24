@@ -33,6 +33,12 @@ public class Bandit : MonoBehaviour
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
 
         player = GameObject.FindWithTag("Player").GetComponent<HeroKnight>();
+        if (player == null)
+        {
+            Debug.Log("Player is null");
+        } else {
+            Debug.Log("Player found");
+        }
     }
 
     // Update is called once per frame
@@ -132,7 +138,7 @@ public class Bandit : MonoBehaviour
         else
             m_animator.SetInteger("AnimState", 0);
 
-         if (Vector2.Distance(player.transform.position, transform.position) <= 1.0f)
+        if (Vector2.Distance(player.transform.position, transform.position) <= 1.0f)
         {
             m_body2d.velocity = Vector3.zero;
 
@@ -147,13 +153,13 @@ public class Bandit : MonoBehaviour
         //destroy bandit when health is zero
         if (health <= 0)
         {
-            Debug.Log("Bandit destroyed");
             m_animator.SetTrigger("Death");
             m_body2d.velocity = Vector3.zero;
             StartCoroutine(RemoveEnemy());
         }
     }
-    IEnumerator RemoveEnemy(){
+    IEnumerator RemoveEnemy()
+    {
         yield return new WaitForSeconds(3);
         Destroy(gameObject);
     }
