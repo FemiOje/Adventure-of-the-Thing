@@ -120,7 +120,10 @@ MonoBehaviour:
   m_noBlood: 0
   m_slideDust: {fileID: 1038168246061390451, guid: 8b8c8cc6774fb074cb9139cc631b108e, type: 3}
   health: 0
+  damagePoints: 10
   isAttacking: 0
+  bandit: {fileID: 0}
+  playerHealthBar: {fileID: 0}
   slider: {fileID: 0}
 --- !u!95 &2655505060201611074
 Animator:
