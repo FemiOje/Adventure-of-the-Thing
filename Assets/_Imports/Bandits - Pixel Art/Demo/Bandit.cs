@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Bandit : MonoBehaviour
@@ -15,12 +16,14 @@ public class Bandit : MonoBehaviour
     private bool m_isDead = false;
 
     //femi
-    private HeroKnight player;
-    private int health = 100;
-    private int damagePoints = 10;
+    [SerializeField] private HeroKnight player;
+    [SerializeField] int health = 100;
+    [SerializeField] int damagePoints = 10;
     public bool isAttacking;
     private bool hasTakenDamageThisAttack;
 
+    public HealthBar banditHealthBar;
+    public Slider slider;
     //femi
 
     private void Awake()
@@ -32,13 +35,8 @@ public class Bandit : MonoBehaviour
     {
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
 
-        player = GameObject.FindWithTag("Player").GetComponent<HeroKnight>();
-        if (player == null)
-        {
-            Debug.Log("Player is null");
-        } else {
-            Debug.Log("Player found");
-        }
+        banditHealthBar.SetMaxHealth(health);
+        banditHealthBar.SetHealth(health);
     }
 
     // Update is called once per frame
@@ -61,12 +59,7 @@ public class Bandit : MonoBehaviour
         // // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
 
-        // // Swap direction of sprite depending on walk direction
-        // if (inputX > 0)
-        //     transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-        // else if (inputX < 0)
-        //     transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-
+        // Move
         // Calculate direction to move towards the player
         if (player != null && player.health >= 0)
         {
@@ -82,8 +75,6 @@ public class Bandit : MonoBehaviour
             m_body2d.velocity = new Vector2(direction * m_speed, 0f);
         }
 
-        // Move
-        // m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
         //Set AirSpeed in animator
         m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
@@ -146,6 +137,7 @@ public class Bandit : MonoBehaviour
             {
                 m_animator.SetTrigger("Hurt");
                 health -= damagePoints;
+                banditHealthBar.SetHealth(health);
                 hasTakenDamageThisAttack = true;
             }
         }

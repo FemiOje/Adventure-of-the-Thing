@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class HeroKnight : MonoBehaviour
@@ -28,9 +29,14 @@ public class HeroKnight : MonoBehaviour
     private float m_rollCurrentTime;
 
     //<femi>
-    public int health;
-    private int damagePoints;
-    public bool isAttacking;
+    [SerializeField] public int health = 100;
+    [SerializeField] private int damagePoints = 10;
+    public bool isAttacking = false;
+    [SerializeField] private Bandit bandit;
+    private bool hasTakenDamageThisAttack;
+    public HealthBar playerHealthBar;
+    public Slider slider;
+
     //</femi>
 
 
@@ -42,8 +48,9 @@ public class HeroKnight : MonoBehaviour
     void Start()
     {
         health = 100;
-        damagePoints = 10;
-        isAttacking = false;
+
+        playerHealthBar.SetMaxHealth(health);
+        playerHealthBar.SetHealth(health);
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR1 = transform.Find("WallSensor_R1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
@@ -131,6 +138,8 @@ public class HeroKnight : MonoBehaviour
             // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
 
+            hasTakenDamageThisAttack = false;
+
             // Reset timer
             m_timeSinceAttack = 0.0f;
         }
@@ -179,6 +188,17 @@ public class HeroKnight : MonoBehaviour
             m_delayToIdle -= Time.deltaTime;
             if (m_delayToIdle < 0)
                 m_animator.SetInteger("AnimState", 0);
+        }
+
+        if (bandit != null && (Vector2.Distance(bandit.transform.position, transform.position) <= 1.0f))
+        {
+            if (bandit.isAttacking && !hasTakenDamageThisAttack)
+            {
+                m_animator.SetTrigger("Hurt");
+                health -= damagePoints;
+                playerHealthBar.SetHealth(health);
+                hasTakenDamageThisAttack = true;
+            }
         }
 
         //make player immobile while attacking
