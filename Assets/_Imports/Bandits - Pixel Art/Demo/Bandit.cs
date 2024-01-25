@@ -50,6 +50,9 @@ public class Bandit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // // -- Handle input and movement --
+        float inputX = Input.GetAxis("Horizontal");
+        
         if (player != null)
         {
             distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
@@ -68,8 +71,6 @@ public class Bandit : MonoBehaviour
             m_animator.SetBool("Grounded", m_grounded);
         }
 
-        // // -- Handle input and movement --
-        float inputX = Input.GetAxis("Horizontal");
 
         // Move
         // Calculate direction to move towards the player
@@ -112,14 +113,16 @@ public class Bandit : MonoBehaviour
             m_combatIdle = !m_combatIdle;
 
         //Jump
-        else if (Input.GetKeyDown("space") && m_grounded)
-        {
-            m_animator.SetTrigger("Jump");
-            m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
-            m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
-            m_groundSensor.Disable(0.2f);
-        }
+        //Jump is disabled because it is not needed in this project
+
+        // else if (Input.GetKeyDown("space") && m_grounded)
+        // {
+        //     m_animator.SetTrigger("Jump");
+        //     m_grounded = false;
+        //     m_animator.SetBool("Grounded", m_grounded);
+        //     m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+        //     m_groundSensor.Disable(0.2f);
+        // }
 
         //Run
         else if (Mathf.Abs(inputX) > Mathf.Epsilon)
