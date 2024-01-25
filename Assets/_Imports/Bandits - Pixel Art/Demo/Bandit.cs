@@ -112,18 +112,6 @@ public class Bandit : MonoBehaviour
         else if (Input.GetKeyDown("f"))
             m_combatIdle = !m_combatIdle;
 
-        //Jump
-        //Jump is disabled because it is not needed in this project
-
-        // else if (Input.GetKeyDown("space") && m_grounded)
-        // {
-        //     m_animator.SetTrigger("Jump");
-        //     m_grounded = false;
-        //     m_animator.SetBool("Grounded", m_grounded);
-        //     m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
-        //     m_groundSensor.Disable(0.2f);
-        // }
-
         //Run
         else if (Mathf.Abs(inputX) > Mathf.Epsilon)
             m_animator.SetInteger("AnimState", 2);
@@ -163,7 +151,7 @@ public class Bandit : MonoBehaviour
     }
     IEnumerator RemoveEnemy()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.0f);
         Destroy(gameObject);
     }
 
