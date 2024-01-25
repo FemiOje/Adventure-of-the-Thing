@@ -32,6 +32,7 @@ public class HeroKnight : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] public int health = 100;
     [SerializeField] private int damagePoints = 10;
+    [SerializeField] private float leftBound = -10.0f;
     public bool isAttacking = false;
     [SerializeField] private Bandit bandit;
     private bool hasTakenDamageThisAttack;
@@ -213,6 +214,12 @@ public class HeroKnight : MonoBehaviour
         if (health <= 0)
         {
             m_animator.SetTrigger("Death");
+        }
+    }
+
+    private void FixedUpdate() {
+        if (transform.position.x <= leftBound){
+            transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
     }
 
