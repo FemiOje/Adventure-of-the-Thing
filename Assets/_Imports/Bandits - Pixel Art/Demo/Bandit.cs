@@ -24,6 +24,9 @@ public class Bandit : MonoBehaviour
 
     public HealthBar banditHealthBar;
     public Slider slider;
+    [SerializeField] float followThreshold;
+    [SerializeField] float attackThreshold;
+    private float distanceToPlayer;
     //femi
 
     private void Awake()
@@ -35,6 +38,11 @@ public class Bandit : MonoBehaviour
     {
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
 
+        if (player == null)
+        {
+            Debug.LogError("Player not found. Please make sure the Player(HeroKnight prefab) exists and is assigned in the Inspector");
+        }
+
         banditHealthBar.SetMaxHealth(health);
         banditHealthBar.SetHealth(health);
     }
@@ -42,6 +50,10 @@ public class Bandit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player != null)
+        {
+            distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
+        }
         //Check if character just landed on the ground
         if (!m_grounded && m_groundSensor.State())
         {
@@ -61,7 +73,7 @@ public class Bandit : MonoBehaviour
 
         // Move
         // Calculate direction to move towards the player
-        if (player != null && player.health >= 0)
+        if ((player != null) && (player.health >= 0) && (distanceToPlayer <= followThreshold))
         {
             float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
 
@@ -95,14 +107,6 @@ public class Bandit : MonoBehaviour
         else if (Input.GetKeyDown("q"))
             m_animator.SetTrigger("Hurt");
 
-        //Attack
-        else if (Input.GetMouseButtonDown(0))
-        {
-            isAttacking = true;
-            m_animator.SetTrigger("Attack");
-            hasTakenDamageThisAttack = false;
-        }
-
         //Change between idle and combat idle
         else if (Input.GetKeyDown("f"))
             m_combatIdle = !m_combatIdle;
@@ -129,10 +133,14 @@ public class Bandit : MonoBehaviour
         else
             m_animator.SetInteger("AnimState", 0);
 
-        if (Vector2.Distance(player.transform.position, transform.position) <= 1.0f)
+        if (distanceToPlayer <= attackThreshold)
         {
-            m_body2d.velocity = Vector3.zero;
+            // m_body2d.velocity = Vector3.zero;
 
+            AttackPlayer();
+
+
+            //Take damage
             if (player.isAttacking && !hasTakenDamageThisAttack)
             {
                 m_animator.SetTrigger("Hurt");
@@ -152,7 +160,15 @@ public class Bandit : MonoBehaviour
     }
     IEnumerator RemoveEnemy()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3.0f);
         Destroy(gameObject);
+    }
+
+    private void AttackPlayer()
+    {
+        m_body2d.velocity = Vector3.zero;
+        isAttacking = true;
+        m_animator.SetTrigger("Attack");
+        hasTakenDamageThisAttack = false;
     }
 }

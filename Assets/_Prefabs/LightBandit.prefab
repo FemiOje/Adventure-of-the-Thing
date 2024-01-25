@@ -306,6 +306,8 @@ MonoBehaviour:
   isAttacking: 0
   banditHealthBar: {fileID: 8886173924572637396}
   slider: {fileID: 3785466450905026566}
+  followThreshold: 8
+  attackThreshold: 2
 --- !u!95 &3880432405754327221
 Animator:
   serializedVersion: 5

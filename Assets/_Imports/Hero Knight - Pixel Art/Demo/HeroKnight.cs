@@ -29,6 +29,7 @@ public class HeroKnight : MonoBehaviour
     private float m_rollCurrentTime;
 
     //<femi>
+    private GameManager gameManager;
     [SerializeField] public int health = 100;
     [SerializeField] private int damagePoints = 10;
     public bool isAttacking = false;
@@ -36,6 +37,7 @@ public class HeroKnight : MonoBehaviour
     private bool hasTakenDamageThisAttack;
     public HealthBar playerHealthBar;
     public Slider slider;
+    [SerializeField] CameraFollow cameraFollow;
 
     //</femi>
 
@@ -214,6 +216,14 @@ public class HeroKnight : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Finish"))
+        {
+            StartCoroutine(WinSequence());
+        }
+    }
+
     // Animation Events
     // Called in slide animation.
     void AE_SlideDust()
@@ -237,5 +247,15 @@ public class HeroKnight : MonoBehaviour
     void AE_EndAttack()
     {
         isAttacking = false;
+    }
+
+    IEnumerator WinSequence()
+    {
+        Debug.Log("You win");
+        cameraFollow.enabled = false;
+        yield return new WaitForSeconds(2.0f);
+        Time.timeScale = 0.0f;
+        yield return new WaitForSeconds(1.0f);
+        GameManager.Instance.LoadMainMenu();
     }
 }
