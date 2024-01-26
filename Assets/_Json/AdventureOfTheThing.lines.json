@@ -1,0 +1,197 @@
+[
+  {
+    "text": "VAR HeroKnight = 0",
+    "blockType": "dialogue",
+    "id": "14284cd8-fec8-4759-95b6-36d14ac4bce7"
+  },
+  {
+    "text": "VAR Bandit = 0",
+    "blockType": "dialogue",
+    "id": "a3608d6f-5a20-4845-83a9-a401ba632b5b"
+  },
+  {
+    "text": "VAR HeroHealth = 100",
+    "blockType": "dialogue",
+    "id": "7660881e-ef5b-44bf-9639-95f71617197b"
+  },
+  {
+    "text": "VAR EncounteredBandits = 0",
+    "blockType": "dialogue",
+    "id": "7b2bc623-0dd3-4cb5-96d8-d435b9b75286"
+  },
+  {
+    "text": "-> Introduction",
+    "blockType": "dialogue",
+    "id": "1d93b8f8-607b-442d-9ca1-5b6155642951"
+  },
+  {
+    "text": "=== Introduction ===",
+    "blockType": "dialogue",
+    "id": "25a7b8c2-fa4e-4f15-9c8e-d475621aecc7"
+  },
+  {
+    "text": "You find yourself on a quest to uncover the lost treasure hidden deep within the Bandit's Lair.",
+    "blockType": "dialogue",
+    "id": "3ce8071a-748a-41da-9fab-3ec9e624faa6"
+  },
+  {
+    "text": "-> RecurringBanditEncounter",
+    "blockType": "dialogue",
+    "id": "e950dd88-e326-4f73-8bda-8e554c46dbca"
+  },
+  {
+    "text": "=== RecurringBanditEncounter ===",
+    "blockType": "dialogue",
+    "id": "99e0be34-63f3-4fe0-a650-48016fa1aec2"
+  },
+  {
+    "text": "- HeroKnight encounters (Bandit) bandits along the journey.",
+    "blockType": "dialogue",
+    "id": "bb36b61f-41a0-49c5-aa75-ae295f1d785d"
+  },
+  {
+    "text": "(HeroKnight) I must find the treasure hidden in the Bandit's Lair.",
+    "blockType": "dialogue",
+    "id": "0d9d237c-0cc4-4278-8414-f5622481284b"
+  },
+  {
+    "text": "{EncounteredBandits == 0:",
+    "blockType": "dialogue",
+    "id": "67b90c85-b3eb-4334-b12f-db438d5c450c"
+  },
+  {
+    "text": "    (set: $EncounteredBandits to 1)",
+    "blockType": "dialogue",
+    "id": "e6bad012-ee5a-422d-a311-40075ea344e0"
+  },
+  {
+    "text": "    (Bandit) Halt! This is bandit territory. Pay us 20 health, and we'll let you pass peacefully.",
+    "blockType": "dialogue",
+    "id": "2389c8af-99dd-4f0a-b62e-84ac4d4ef024"
+  },
+  {
+    "text": "    * Option 1: Pay the health",
+    "blockType": "dialogue",
+    "id": "02b4eeb1-478d-487d-98db-730ac3a7c3be"
+  },
+  {
+    "text": "        {HeroHealth >= 20:",
+    "blockType": "dialogue",
+    "id": "c3103e15-d63b-460a-9af3-b6f4ab2c72ab"
+  },
+  {
+    "text": "            [Pay 20 health] -> ContinueOnPath ",
+    "blockType": "dialogue",
+    "id": "ae2c473a-0179-4b63-8754-397848985c1c"
+  },
+  {
+    "text": "        - else:",
+    "blockType": "dialogue",
+    "id": "72d19508-4730-43b3-8008-2373ace3521e"
+  },
+  {
+    "text": "            [Refuse] -> FightBandits",
+    "blockType": "dialogue",
+    "id": "11e96e11-2d06-4b57-b6e4-5ea8c176563f"
+  },
+  {
+    "text": "        }",
+    "blockType": "dialogue",
+    "id": "7972c208-f363-4889-8a72-3911f02e68b8"
+  },
+  {
+    "text": "    * Option 2: Refuse -> FightBandits",
+    "blockType": "dialogue",
+    "id": "313b0bba-121b-48a5-8947-db5317f13cc4"
+  },
+  {
+    "text": "}",
+    "blockType": "dialogue",
+    "id": "cfd47cec-923d-4190-925d-48ad4d1ee32e"
+  },
+  {
+    "text": "{EncounteredBandits > 0:",
+    "blockType": "dialogue",
+    "id": "0468ebbe-9554-4aca-8185-0dcb1801df25"
+  },
+  {
+    "text": "    (Bandit) You again! Pay up or prepare to fight.",
+    "blockType": "dialogue",
+    "id": "2c0292b8-ca6a-442d-93e1-eeb41fe8cfc9"
+  },
+  {
+    "text": "    * Option 1: Pay the health",
+    "blockType": "dialogue",
+    "id": "f6b0a68d-bb11-4f9b-9c03-280a72b366bc"
+  },
+  {
+    "text": "        {HeroHealth >= 20:",
+    "blockType": "dialogue",
+    "id": "a66754ae-c6d9-40d5-ad91-c2450b9c8a1c"
+  },
+  {
+    "text": "            [Pay 20 health] -> ContinueOnPath ",
+    "blockType": "dialogue",
+    "id": "f630423c-b754-4a24-8c80-5308d1161630"
+  },
+  {
+    "text": "        - else:",
+    "blockType": "dialogue",
+    "id": "f5a7ad9f-2196-4d1e-8901-ba6d86947717"
+  },
+  {
+    "text": "            [Refuse] -> FightBandits",
+    "blockType": "dialogue",
+    "id": "2df693c7-c517-4e78-ba1d-cbf2f369f951"
+  },
+  {
+    "text": "        }",
+    "blockType": "dialogue",
+    "id": "b444c5fd-c4fa-4fcb-8178-007e17305f86"
+  },
+  {
+    "text": "    * Option 2: Refuse -> FightBandits",
+    "blockType": "dialogue",
+    "id": "492accf0-9d5c-41a7-8469-2c0ae1b05e1e"
+  },
+  {
+    "text": "}",
+    "blockType": "dialogue",
+    "id": "24b64fd1-93e5-4ba0-92f7-f1b399757318"
+  },
+  {
+    "text": "=== ContinueOnPath ===",
+    "blockType": "dialogue",
+    "id": "0dd1e984-2227-4bdb-b491-87f70476c510"
+  },
+  {
+    "text": "(once: $HeroHealth >= 20)",
+    "blockType": "dialogue",
+    "id": "3216fe76-703a-4f20-bb22-e23f7bb462b3"
+  },
+  {
+    "text": "(HeroKnight) I paid the toll and continue on my way.",
+    "blockType": "dialogue",
+    "id": "85a72ac6-9955-4e84-994e-b9ff1df80936"
+  },
+  {
+    "text": "* [ContinueOnPath] -> END",
+    "blockType": "dialogue",
+    "id": "b5055de7-2010-4678-b7aa-a0f6eebf5bdd"
+  },
+  {
+    "text": "=== FightBandits ===",
+    "blockType": "dialogue",
+    "id": "ea7e3351-580d-463b-880c-4c9fe249d8bf"
+  },
+  {
+    "text": "(HeroKnight) I won't be extorted. Prepare to fight!",
+    "blockType": "dialogue",
+    "id": "79f5f1c3-8d68-48cd-a0b3-81175ac7c800"
+  },
+  {
+    "text": "-> END",
+    "blockType": "dialogue",
+    "id": "fdc0882a-0ab9-44a7-b1a3-32f53261ee8a"
+  }
+]
