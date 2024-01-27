@@ -1,52 +1,175 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Ink.Runtime;
+using System;
+using System.Collections.Generic;
 
 public class InkManager : MonoBehaviour
 {
-    private Story inkStory;
-    public Text inkTextUI;
 
-    void Start()
-    {
-        TextAsset inkJSONAsset = Resources.Load<TextAsset>("GameStory");
-        inkStory = new Story(inkJSONAsset.text);
+	private int textCount = -4;
+	[SerializeField] HealthBar playerHealthBar;
+	[SerializeField] HeroKnight player;
+	public static event Action<Story> OnCreateStory;
 
-        // Display the initial text
-        UpdateUI();
-    }
+	void Awake()
+	{
+		// Remove the default messag
+		Time.timeScale = 0.0f;
+		RemoveChildren();
+		StartStory();
+	}
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            ContinueStory();
-        }
-    }
+	// Creates a new Story object with the compiled story which we can then play!
+	public void StartStory()
+	{
+		story = new Story(inkJSONAsset.text);
+		if (OnCreateStory != null) OnCreateStory(story);
+		RefreshView();
+	}
 
-    void ContinueStory()
-    {
-        if (inkStory.canContinue)
-        {
-            string text = inkStory.Continue();
-            UpdateUI();
+	// This is the main function called every time the story changes. It does a few things:
+	// Destroys all the old content and choices.
+	// Continues over all the lines of text, then displays all the choices. If there are no choices, the story is finished!
+	void RefreshView()
+	{
+		// Remove all the UI on screen
+		RemoveChildren();
 
-            // Check for specific story points and repeat encounters
-            if ((int)inkStory.variablesState["EncounteredBandits"] == 1 && inkStory.currentChoices.Count == 0)
-            {
-                RepeatEncounter();
-            }
-        }
-    }
+		// Read all the content until we can't continue any more
+		while (story.canContinue)
+		{
+			// Continue gets the next line of the story
+			string text = story.Continue();
+			// This removes any white space from the text.
+			text = text.Trim();
+			// Display the text on screen!
+			CreateContentView(text);
+		}
 
-    void UpdateUI()
-    {
-        inkTextUI.text = inkStory.currentText;
-    }
+		// Display all the choices, if there are any!
+		if (story.currentChoices.Count > 0)
+		{
+			for (int i = 0; i < story.currentChoices.Count; i++)
+			{
+				Choice choice = story.currentChoices[i];
+				Button button = CreateChoiceView(choice.text.Trim());
+				button.onClick.AddListener(delegate
+				{
+					OnClickChoiceButton(choice);
+				});
+			}
+		}
+		// If we've read all the content and there's no choices, the story is finished!
+		else
+		{
+			Time.timeScale = 1.0f;
+			RemoveChildren();
+			gameObject.GetComponent<InkManager>().enabled = false;
+		}
+	}
 
-    void RepeatEncounter()
-    {
-        // Handle logic for repeating encounters
-        Debug.Log("Repeating Bandit Encounter");
-    }
+	void OnClickChoiceButton(Choice choice)
+	{
+		if (choice.text == "ContinueOnPath")
+		{
+			DeductPlayerHealth();
+			RemoveBandits();
+		}
+
+		story.ChooseChoiceIndex(choice.index);
+		RefreshView();
+	}
+
+	void DeductPlayerHealth()
+	{
+		player.health -= 20;
+		playerHealthBar.SetHealth(player.health - 20);
+	}
+void CreateContentView(string text)
+{
+    Text storyText = Instantiate(textPrefab) as Text;
+    storyText.text = text;
+
+    RectTransform rt = storyText.GetComponent<RectTransform>();
+    rt.SetParent(canvas.transform, false);
+
+    float yOffset = -50 * textCount;
+    rt.anchoredPosition = new Vector2(0, yOffset);
+    rt.sizeDelta = new Vector2(400, rt.sizeDelta.y);
+    storyText.color = Color.black;
+
+    textCount++;
+}
+
+
+
+	// Creates a button showing the choice text
+	Button CreateChoiceView(string text)
+	{
+		// Creates the button from a prefab
+		Button choice = Instantiate(buttonPrefab) as Button;
+		choice.transform.SetParent(canvas.transform, false);
+
+		// Gets the text from the button prefab
+		Text choiceText = choice.GetComponentInChildren<Text>();
+		choiceText.text = text;
+
+		// Make the button expand to fit the text
+		HorizontalLayoutGroup layoutGroup = choice.GetComponent<HorizontalLayoutGroup>();
+		layoutGroup.childForceExpandHeight = false;
+
+		// Set the y-coordinate to create space between buttons
+		float yOffset = -30 * textCount;  // Adjust the vertical spacing (e.g., -30 pixels)
+		RectTransform rt = choice.GetComponent<RectTransform>();
+		rt.anchoredPosition = new Vector2(0, yOffset);
+
+		// Increase textCount for the next text element
+		textCount++;
+
+		return choice;
+	}
+
+
+	// Destroys all the children of this gameobject (all the UI)
+	void RemoveChildren()
+	{
+		int childCount = canvas.transform.childCount;
+		for (int i = childCount - 1; i >= 0; --i)
+		{
+			Destroy(canvas.transform.GetChild(i).gameObject);
+		}
+	}
+
+	void RemoveBandits()
+	{
+		// Find all Bandit GameObjects in the scene
+		Bandit[] allBandits = FindObjectsOfType<Bandit>();
+
+		// Sort the bandits based on their distance to the player
+		List<Bandit> sortedBandits = new List<Bandit>(allBandits);
+		sortedBandits.Sort((a, b) => Vector3.Distance(player.transform.position, a.transform.position)
+									  .CompareTo(Vector3.Distance(player.transform.position, b.transform.position)));
+
+		// Destroy the three closest bandits
+		int banditsToRemoveCount = Mathf.Min(3, sortedBandits.Count);
+		for (int i = 0; i < banditsToRemoveCount; i++)
+		{
+			Destroy(sortedBandits[i].gameObject);
+		}
+	}
+
+
+	[SerializeField]
+	private TextAsset inkJSONAsset = null;
+	public Story story;
+
+	[SerializeField]
+	private Canvas canvas = null;
+
+	// UI Prefabs
+	[SerializeField]
+	private Text textPrefab = null;
+	[SerializeField]
+	private Button buttonPrefab = null;
 }

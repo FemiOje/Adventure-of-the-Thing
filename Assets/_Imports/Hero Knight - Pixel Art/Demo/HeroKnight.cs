@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class HeroKnight : MonoBehaviour
 {
@@ -213,12 +214,14 @@ public class HeroKnight : MonoBehaviour
 
         if (health <= 0)
         {
-            m_animator.SetTrigger("Death");
+            StartCoroutine(GameOverSequence());
         }
     }
 
-    private void FixedUpdate() {
-        if (transform.position.x <= leftBound){
+    private void FixedUpdate()
+    {
+        if (transform.position.x <= leftBound)
+        {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
     }
@@ -260,9 +263,18 @@ public class HeroKnight : MonoBehaviour
     {
         Debug.Log("You win");
         cameraFollow.enabled = false;
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2);
         Time.timeScale = 0.0f;
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(1);
         GameManager.Instance.LoadMainMenu();
+    }
+
+    IEnumerator GameOverSequence()
+    {
+        m_animator.SetTrigger("Death");
+        yield return new WaitForSeconds(2);
+        Time.timeScale = 0;
+        Debug.Log("You lose");
+        SceneManager.LoadScene(0);
     }
 }

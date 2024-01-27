@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        Debug.Log("Pause game");
         Time.timeScale = 0.0f;
     }
 
