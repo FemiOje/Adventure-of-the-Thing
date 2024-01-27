@@ -129,6 +129,9 @@ public class EnemyMovement : MonoBehaviour
         else if (direction < 0)
             transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
+        m_rb2D.velocity = Vector2.zero;
+
+
         m_animator.SetInteger("AnimState", 1);
     }
 
