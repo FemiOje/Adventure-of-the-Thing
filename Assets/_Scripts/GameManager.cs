@@ -20,20 +20,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void PauseGame()
-    {
-        Debug.Log("Pause game");
-        Time.timeScale = 0.0f;
-    }
-
-    public void ResumeGame()
-    {
-        Time.timeScale = 1.0f;
-    }
-
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(1);
     }
 
     public void LoadMainMenu()
