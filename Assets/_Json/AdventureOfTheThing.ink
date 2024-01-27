@@ -3,10 +3,6 @@ VAR Bandit = 0
 VAR HeroHealth = 100
 VAR EncounteredBandits = 0
 
--> Introduction
-=== Introduction ===
-You find yourself on a quest to uncover the lost treasure hidden deep within the Bandit's Lair.
-
 -> RecurringBanditEncounter
 === RecurringBanditEncounter ===
 - HeroKnight encounters (Bandit) bandits along the journey.
