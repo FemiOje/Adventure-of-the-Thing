@@ -44,6 +44,7 @@ public class InkManager : MonoBehaviour
         inkTextUI.text = inkStory.currentText;
     }
 
+<<<<<<< Updated upstream
     void RepeatEncounter()
     {
         // Handle logic for repeating encounters
