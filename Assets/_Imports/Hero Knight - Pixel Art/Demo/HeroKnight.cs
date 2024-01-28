@@ -42,6 +42,7 @@ public class HeroKnight : MonoBehaviour
     public HealthBar playerHealthBar;
     public Slider slider;
     [SerializeField] CameraFollow cameraFollow;
+    [SerializeField] float attackCooldown = 0.1f;
 
     //</femi>
 
@@ -132,22 +133,26 @@ public class HeroKnight : MonoBehaviour
             m_animator.SetTrigger("Hurt");
 
         // Attack
-        else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.1f && !m_rolling)
+        if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > attackCooldown && !m_rolling)
         {
             isAttacking = true;
             m_currentAttack++;
 
-            // Loop back to one after the third attack
             if (m_currentAttack > 3)
                 m_currentAttack = 1;
 
-            // Call one of three attack animations "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
-
-            hasTakenDamageThisAttack = false;
-
-            // Reset timer
             m_timeSinceAttack = 0.0f;
+
+            StartCoroutine(ResetAttack());
+
+            //<note>
+
+            //the following is a somewhat improper workaround to the bandit not being able to attack the player
+            //this was done because I was working on a deadline
+            // health -= 1;
+            bandit.GetComponent<Animator>().SetTrigger("Attack");
+            //</note>
         }
 
         // Block
@@ -261,6 +266,11 @@ public class HeroKnight : MonoBehaviour
         isAttacking = false;
     }
 
+    IEnumerator ResetAttack()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
+    }
     IEnumerator WinSequence()
     {
         cameraFollow.enabled = false;
@@ -268,7 +278,6 @@ public class HeroKnight : MonoBehaviour
         Time.timeScale = 0.0f;
         winUI.SetActive(true);
     }
-
 
     IEnumerator GameOverSequence()
     {

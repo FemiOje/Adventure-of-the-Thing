@@ -1123,7 +1123,7 @@ GameObject:
   - component: {fileID: 380119468}
   - component: {fileID: 380119467}
   m_Layer: 0
-  m_Name: WinTrigger
+  m_Name: Treasure Chest
   m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1137,7 +1137,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380119464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 120, y: 2.5, z: 0}
+  m_LocalPosition: {x: 123.5, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1793,6 +1793,10 @@ PrefabInstance:
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 1710112883}
+    - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: attackCooldown
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: playerHealthBar
       value: 
