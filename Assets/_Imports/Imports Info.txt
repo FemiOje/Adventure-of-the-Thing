@@ -5,7 +5,6 @@
 	Asset Store: https://assetstore.unity.com/packages/2d/characters/bandits-pixel-art-104130
 
 3. UI: 
-
 	2D Simple UI Pack by OArielG
 	Asset Store: https://assetstore.unity.com/packages/2d/gui/icons/2d-simple-ui-pack-218050
 
@@ -22,3 +21,7 @@
 5. Background
 	Free 2D Cartoon Parallax Background by CPasteGame
 	Asset Store: https://assetstore.unity.com/packages/2d/environments/free-2d-cartoon-parallax-background-205812
+
+6. Treasure Chest
+	Pixel Chests Pack - Animated by karsiori
+	Asset Store: https://assetstore.unity.com/packages/2d/environments/pixel-chests-pack-animated-263923

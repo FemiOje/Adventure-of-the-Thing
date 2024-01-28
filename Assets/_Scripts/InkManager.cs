@@ -7,9 +7,10 @@ using System.Collections.Generic;
 public class InkManager : MonoBehaviour
 {
 
-	private int textCount = -4;
+	private int textCount = -7;
 	[SerializeField] HealthBar playerHealthBar;
 	[SerializeField] HeroKnight player;
+	Image image;
 	public static event Action<Story> OnCreateStory;
 
 	void Awake()
@@ -18,6 +19,14 @@ public class InkManager : MonoBehaviour
 		Time.timeScale = 0.0f;
 		RemoveChildren();
 		StartStory();
+	}
+	private void OnEnable() {
+		image = canvas.GetComponent<Image>();
+		image.enabled = true;
+	}
+
+	private void OnDisable() {
+		image.enabled = false;
 	}
 
 	// Creates a new Story object with the compiled story which we can then play!
@@ -65,7 +74,7 @@ public class InkManager : MonoBehaviour
 		{
 			Time.timeScale = 1.0f;
 			RemoveChildren();
-			gameObject.GetComponent<InkManager>().enabled = false;
+			Destroy(gameObject);
 		}
 	}
 
@@ -83,8 +92,8 @@ public class InkManager : MonoBehaviour
 
 	void DeductPlayerHealth()
 	{
-		player.health -= 20;
-		playerHealthBar.SetHealth(player.health - 20);
+		player.health -= 40;
+		playerHealthBar.SetHealth(player.health - 40);
 	}
 void CreateContentView(string text)
 {
@@ -96,8 +105,7 @@ void CreateContentView(string text)
 
     float yOffset = -50 * textCount;
     rt.anchoredPosition = new Vector2(0, yOffset);
-    rt.sizeDelta = new Vector2(400, rt.sizeDelta.y);
-    storyText.color = Color.black;
+    storyText.color = Color.white;
 
     textCount++;
 }
@@ -120,7 +128,7 @@ void CreateContentView(string text)
 		layoutGroup.childForceExpandHeight = false;
 
 		// Set the y-coordinate to create space between buttons
-		float yOffset = -30 * textCount;  // Adjust the vertical spacing (e.g., -30 pixels)
+		float yOffset = -50 * textCount;  // Adjust the vertical spacing (e.g., -30 pixels)
 		RectTransform rt = choice.GetComponent<RectTransform>();
 		rt.anchoredPosition = new Vector2(0, yOffset);
 

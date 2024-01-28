@@ -11,6 +11,8 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] float m_rollForce = 6.0f;
     [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
+    [SerializeField] GameObject winUI;
+    [SerializeField] GameObject loseUI;
 
     private Animator m_animator;
     private Rigidbody2D m_body2d;
@@ -130,7 +132,7 @@ public class HeroKnight : MonoBehaviour
             m_animator.SetTrigger("Hurt");
 
         // Attack
-        else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.5f && !m_rolling)
+        else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.1f && !m_rolling)
         {
             isAttacking = true;
             m_currentAttack++;
@@ -194,6 +196,21 @@ public class HeroKnight : MonoBehaviour
                 m_animator.SetInteger("AnimState", 0);
         }
 
+        //make player immobile while attacking
+        if (isAttacking)
+        {
+            inputX = 0.0f;
+            m_body2d.velocity = new Vector2(0, m_body2d.velocity.y);
+        }
+
+        if (health <= 0)
+        {
+            StartCoroutine(GameOverSequence());
+        }
+    }
+
+    private void FixedUpdate()
+    {
         if (bandit != null && (Vector2.Distance(bandit.transform.position, transform.position) <= 1.0f))
         {
             if (bandit.isAttacking && !hasTakenDamageThisAttack)
@@ -205,22 +222,6 @@ public class HeroKnight : MonoBehaviour
             }
         }
 
-        //make player immobile while attacking
-        if (isAttacking)
-        {
-            inputX = 0.0f;
-            m_body2d.velocity = new Vector2(0, m_body2d.velocity.y);
-            // m_body2d.velocity = Vector3.zero;
-        }
-
-        if (health <= 0)
-        {
-            StartCoroutine(GameOverSequence());
-        }
-    }
-
-    private void FixedUpdate()
-    {
         if (transform.position.x <= leftBound)
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
@@ -262,20 +263,20 @@ public class HeroKnight : MonoBehaviour
 
     IEnumerator WinSequence()
     {
-        Debug.Log("You win");
         cameraFollow.enabled = false;
         yield return new WaitForSeconds(2);
         Time.timeScale = 0.0f;
-        yield return new WaitForSeconds(1);
-        GameManager.Instance.LoadMainMenu();
+        winUI.SetActive(true);
     }
+
 
     IEnumerator GameOverSequence()
     {
+        m_animator.SetBool("noBlood", m_noBlood);
         m_animator.SetTrigger("Death");
-        yield return new WaitForSeconds(2);
-        Time.timeScale = 0;
-        Debug.Log("You lose");
-        SceneManager.LoadScene(0);
+
+        yield return new WaitForSeconds(0.5f);
+        loseUI.SetActive(true);
+        Time.timeScale = 0.0f;
     }
 }

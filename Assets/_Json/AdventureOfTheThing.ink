@@ -8,10 +8,10 @@ VAR EncounteredBandits = 0
 - HeroKnight encounters (Bandit) bandits along the journey.
 HeroKnight: "I must find the treasure hidden in the Bandit's Lair."
 {EncounteredBandits == 0:
-    Bandit: "Halt! This is bandit territory. Pay us 20 health, and we'll let you pass peacefully."
+    Bandit: "Halt! This is bandit territory. Pay us 40 health, and we'll let you pass peacefully."
     * Option 1: Pay the health
-        {HeroHealth >= 20:
-            [Pay 20 health] -> ContinueOnPath 
+        {HeroHealth >= 40:
+            [Pay 40 health] -> ContinueOnPath 
         - else:
             [Refuse] -> FightBandits
         }
@@ -20,8 +20,8 @@ HeroKnight: "I must find the treasure hidden in the Bandit's Lair."
 {EncounteredBandits > 0:
     (Bandit): "You again! Pay up or prepare to fight."
     * Option 1: Pay the health
-        {HeroHealth >= 20:
-            [Pay 20 health] -> ContinueOnPath 
+        {HeroHealth >= 40:
+            [Pay 40 health] -> ContinueOnPath 
         - else:
             [Refuse] -> FightBandits
         }

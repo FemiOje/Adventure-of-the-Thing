@@ -27,6 +27,11 @@ public class Bandit : MonoBehaviour
     [SerializeField] float followThreshold;
     [SerializeField] float attackThreshold;
     private float distanceToPlayer;
+    float attackCooldown = 2f;
+    private bool canAttack = true;
+    [SerializeField] float fallSpeedMultiplier = 1.0f;
+    [SerializeField] float m_gravityScale = 1.0f;
+
     //femi
 
     private void Awake()
@@ -36,6 +41,8 @@ public class Bandit : MonoBehaviour
     }
     void Start()
     {
+        m_body2d.gravityScale = m_gravityScale; // Set the gravity scale
+
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_Bandit>();
 
         if (player == null)
@@ -52,7 +59,7 @@ public class Bandit : MonoBehaviour
     {
         // // -- Handle input and movement --
         float inputX = Input.GetAxis("Horizontal");
-        
+
         if (player != null)
         {
             distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
@@ -90,46 +97,48 @@ public class Bandit : MonoBehaviour
 
 
         //Set AirSpeed in animator
-        m_animator.SetFloat("AirSpeed", m_body2d.velocity.y);
+        // m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y * fallSpeedMultiplier);
+
 
         // -- Handle Animations --
         //Death
-        if (Input.GetKeyDown("e"))
-        {
-            if (!m_isDead)
-                m_animator.SetTrigger("Death");
-            else
-                m_animator.SetTrigger("Recover");
+        // if (Input.GetKeyDown("e"))
+        // {
+        //     if (!m_isDead)
+        //         m_animator.SetTrigger("Death");
+        //     else
+        //         m_animator.SetTrigger("Recover");
 
-            m_isDead = !m_isDead;
-        }
+        //     m_isDead = !m_isDead;
+        // }
 
-        //Hurt
-        else if (Input.GetKeyDown("q"))
-            m_animator.SetTrigger("Hurt");
+        // //Hurt
+        // else if (Input.GetKeyDown("q"))
+        //     m_animator.SetTrigger("Hurt");
 
-        //Change between idle and combat idle
-        else if (Input.GetKeyDown("f"))
-            m_combatIdle = !m_combatIdle;
+        // //Change between idle and combat idle
+        // else if (Input.GetKeyDown("f"))
+        //     m_combatIdle = !m_combatIdle;
 
-        //Run
-        else if (Mathf.Abs(inputX) > Mathf.Epsilon)
-            m_animator.SetInteger("AnimState", 2);
+        // //Run
+        // else if (Mathf.Abs(inputX) > Mathf.Epsilon)
+        //     m_animator.SetInteger("AnimState", 2);
 
-        //Combat Idle
-        else if (m_combatIdle)
-            m_animator.SetInteger("AnimState", 1);
+        // //Combat Idle
+        // else if (m_combatIdle)
+        //     m_animator.SetInteger("AnimState", 1);
 
-        //Idle
-        else
-            m_animator.SetInteger("AnimState", 0);
+        // //Idle
+        // else
+        //     m_animator.SetInteger("AnimState", 0);
 
         if (distanceToPlayer <= attackThreshold)
         {
-            // m_body2d.velocity = Vector3.zero;
-
-            AttackPlayer();
-
+            if (canAttack)
+            {
+                AttackPlayer();
+                StartCoroutine(AttackCooldown());
+            }
 
             //Take damage
             if (player.isAttacking && !hasTakenDamageThisAttack)
@@ -149,11 +158,7 @@ public class Bandit : MonoBehaviour
             StartCoroutine(RemoveEnemy());
         }
     }
-    IEnumerator RemoveEnemy()
-    {
-        yield return new WaitForSeconds(1.0f);
-        Destroy(gameObject);
-    }
+
 
     private void AttackPlayer()
     {
@@ -161,5 +166,20 @@ public class Bandit : MonoBehaviour
         isAttacking = true;
         m_animator.SetTrigger("Attack");
         hasTakenDamageThisAttack = false;
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
+    }
+
+    IEnumerator RemoveEnemy()
+    {
+        yield return new WaitForSeconds(1.0f);
+        m_animator.SetTrigger("Death");
+        yield return new WaitForSeconds(1.5f);
+        Destroy(gameObject);
     }
 }

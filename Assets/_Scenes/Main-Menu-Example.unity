@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.10024945, y: 0.65000004}
   m_AnchorMax: {x: 0.8996788, y: 0.89166903}
-  m_AnchoredPosition: {x: 0, y: 0.30000305}
+  m_AnchoredPosition: {x: 0.07620239, y: 8.638702}
   m_SizeDelta: {x: 0, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &26988847
@@ -305,7 +305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.023044, y: -34.8}
+  m_AnchoredPosition: {x: 0.023044, y: -26.999998}
   m_SizeDelta: {x: 48, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &448679652
@@ -473,7 +473,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Credit
+  m_Text: Credits
 --- !u!222 &653804964
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -945,7 +945,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.023044, y: -15.693001}
+  m_AnchoredPosition: {x: 0.069027, y: -8}
   m_SizeDelta: {x: 48, y: 16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1193666276
@@ -1113,8 +1113,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a, type: 3}
-    m_FontSize: 4
+    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
+    m_FontSize: 3
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1126,14 +1126,16 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "ASSETS/IMPORTS\n1. Character Asset plus animations(Hero Knight - Pixel
-    Art) from Sven Thole\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/characters/hero-knight-pixel-art-165188\r\n\n2.
+    Art) from Sven Thole\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/characters/hero-knight-pixel-art-165188\r\n\r\n2.
     Bandits Asset(Bandits- Pixel Art) from Sven Thole\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/characters/bandits-pixel-art-104130\r\n\r\n3.
     UI: \r\n\t2D Simple UI Pack by OArielG\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/gui/icons/2d-simple-ui-pack-218050\r\n\r\n\tFree
     Pixel Font - Thaleah by Tiny Worlds\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/fonts/free-pixel-font-thaleah-140059\r\n\r\n\tHealth
     Bar and Heart Sprites by Brackeys\r\n\tGithub Repo: https://github.com/Brackeys/Health-Bar\r\n\r\n4.
     Environment\r\n\tPlatform tile pack by Evolvers\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/environments/platform-tile-pack-204101\r\n\r\n5.
     Background\r\n\tFree 2D Cartoon Parallax Background by CPasteGame\r\n\tAsset
-    Store: https://assetstore.unity.com/packages/2d/environments/free-2d-cartoon-parallax-background-205812"
+    Store: https://assetstore.unity.com/packages/2d/environments/free-2d-cartoon-parallax-background-205812\r\n\r\n6.
+    Treasure Chest\r\n\tPixel Chests Pack - Animated by karsiori\r\n\tAsset Store:
+    https://assetstore.unity.com/packages/2d/environments/pixel-chests-pack-animated-263923"
 --- !u!222 &1249739597
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1479,7 +1481,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.1875}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.11999893}
+  m_AnchoredPosition: {x: 0, y: 0.11785984}
   m_SizeDelta: {x: 0, y: 0.23572063}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817880008
@@ -2038,9 +2040,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1565055059}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 442682931}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadScene1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2087,8 +2089,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.023043, y: 10.003}
-  m_SizeDelta: {x: 59.4616, y: 19.8206}
+  m_AnchoredPosition: {x: 0.09203, y: 12.981}
+  m_SizeDelta: {x: 48.046, y: 15.62272}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5843076173043347836
 MonoBehaviour:

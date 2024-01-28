@@ -17,13 +17,23 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
     }
 
-    public void LoadNextScene()
+    public void LoadScene1()
     {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         SceneManager.LoadScene(1);
+        Time.timeScale = 1;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
     }
 
     public void LoadMainMenu()
