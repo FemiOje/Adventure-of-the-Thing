@@ -25,3 +25,6 @@
 6. Treasure Chest
 	Pixel Chests Pack - Animated by karsiori
 	Asset Store: https://assetstore.unity.com/packages/2d/environments/pixel-chests-pack-animated-263923
+
+7. Music- 8Bit Music- 062022, by GWriterStudio
+	Asset Store: https://assetstore.unity.com/packages/audio/music/8bit-music-062022-225623
