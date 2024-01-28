@@ -209,7 +209,8 @@ public class HeroKnight : MonoBehaviour
         if (isAttacking)
         {
             inputX = 0.0f;
-            m_body2d.velocity = Vector3.zero;
+            m_body2d.velocity = new Vector2(0, m_body2d.velocity.y);
+            // m_body2d.velocity = Vector3.zero;
         }
 
         if (health <= 0)
