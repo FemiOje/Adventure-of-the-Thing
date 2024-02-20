@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class HeroKnight : MonoBehaviour
+public class HeroKnight : Character
 {
 
     [SerializeField] float m_speed = 4.0f;
@@ -33,8 +33,6 @@ public class HeroKnight : MonoBehaviour
 
     //<femi>
     private GameManager gameManager;
-    [SerializeField] public int health = 100;
-    [SerializeField] private int damagePoints = 10;
     [SerializeField] private float leftBound = -10.0f;
     public bool isAttacking = false;
     [SerializeField] private Bandit bandit;
@@ -150,7 +148,8 @@ public class HeroKnight : MonoBehaviour
 
             //the following is a somewhat improper workaround to the bandit not being able to attack the player
             //this was done because I was working on a deadline
-            // health -= 1;
+            health -= 1;
+            playerHealthBar.SetHealth(health);
             bandit.GetComponent<Animator>().SetTrigger("Attack");
             //</note>
         }
@@ -210,7 +209,7 @@ public class HeroKnight : MonoBehaviour
 
         if (health <= 0)
         {
-            StartCoroutine(GameOverSequence());
+            // StartCoroutine(Die());
         }
     }
 
@@ -279,13 +278,13 @@ public class HeroKnight : MonoBehaviour
         winUI.SetActive(true);
     }
 
-    IEnumerator GameOverSequence()
-    {
-        m_animator.SetBool("noBlood", m_noBlood);
-        m_animator.SetTrigger("Death");
+   void RefillHealth(){
 
-        yield return new WaitForSeconds(0.5f);
-        loseUI.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
+   }
+
+   void Defend(){
+    
+   }
+
+
 }

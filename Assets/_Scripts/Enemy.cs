@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class Enemy : Character
 {
     [Header("Movement")]
     [SerializeField] float m_speed = 4.0f;
@@ -16,8 +16,6 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Femi's Variables")]
     [SerializeField] private HeroKnight player;
-    [SerializeField] int health = 100;
-    [SerializeField] int damagePoints = 10;
     public bool isAttacking;
     private bool hasTakenDamageThisAttack;
 
@@ -89,7 +87,7 @@ public class EnemyMovement : MonoBehaviour
     {
         StateSwitcher();
 
-        if (m_grounded && distanceToPlayer <= combatIdleThreshold && player != null && player.health >= 0)
+        if (m_grounded && distanceToPlayer <= combatIdleThreshold && player != null && health >= 0)
         {
             previousState = currentState;
             currentState = EnemyStates.CombatIdle;
@@ -113,7 +111,7 @@ public class EnemyMovement : MonoBehaviour
 
     void CombatIdleState()
     {
-        if (m_grounded && distanceToPlayer <= attackThreshold && player != null && player.health >= 0 && attackCooldownTimer <= 0)
+        if (m_grounded && distanceToPlayer <= attackThreshold && player != null && health >= 0 && attackCooldownTimer <= 0)
         {
             previousState = currentState;
             currentState = EnemyStates.Attack;
@@ -183,7 +181,7 @@ public class EnemyMovement : MonoBehaviour
             currentState = EnemyStates.Jump;
         }
 
-        else if (m_grounded && distanceToPlayer <= followThreshold && distanceToPlayer > combatIdleThreshold && player != null && player.health >= 0)
+        else if (m_grounded && distanceToPlayer <= followThreshold && distanceToPlayer > combatIdleThreshold && player != null && health >= 0)
         {
             previousState = currentState;
             currentState = EnemyStates.Track;
