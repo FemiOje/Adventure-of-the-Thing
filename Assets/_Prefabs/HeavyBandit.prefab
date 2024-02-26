@@ -80,12 +80,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3210530567111140231}
-  - component: {fileID: 3244521092932216667}
   - component: {fileID: 3299529803916636189}
   - component: {fileID: 3345377486039608099}
   - component: {fileID: 3182741652078659787}
   - component: {fileID: 3190702970262788017}
-  m_Layer: 0
+  - component: {fileID: 7927265244610626283}
+  m_Layer: 6
   m_Name: HeavyBandit
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -108,20 +108,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3244521092932216667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3214276989373684933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba8b435a8dc3f604e9a13c4acd7081c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_speed: 4
-  m_jumpForce: 7.5
 --- !u!95 &3299529803916636189
 Animator:
   serializedVersion: 5
@@ -242,3 +228,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.2}
   m_EdgeRadius: 0
+--- !u!114 &7927265244610626283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3214276989373684933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbd97ccee33e304d983bc50e55e6f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePoints: 0
+  m_noBlood: 1
+  m_speed: 4
+  m_jumpForce: 7.5
+  player: {fileID: 0}
+  isAttacking: 0
+  followThreshold: 0
+  attackThreshold: 0

@@ -257,12 +257,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3790271564018977085}
-  - component: {fileID: 3823738187759937301}
   - component: {fileID: 3880432405754327221}
   - component: {fileID: 3925649475021514699}
   - component: {fileID: 3763840418374661499}
   - component: {fileID: 3769848362353166729}
-  m_Layer: 0
+  - component: {fileID: 1569218955384248832}
+  m_Layer: 6
   m_Name: LightBandit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,28 +286,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3823738187759937301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3787154837807928767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba8b435a8dc3f604e9a13c4acd7081c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_speed: 2
-  m_jumpForce: 7.5
-  player: {fileID: 0}
-  health: 100
-  damagePoints: 10
-  isAttacking: 0
-  banditHealthBar: {fileID: 8886173924572637396}
-  slider: {fileID: 3785466450905026566}
-  followThreshold: 8
-  attackThreshold: 2
 --- !u!95 &3880432405754327221
 Animator:
   serializedVersion: 5
@@ -428,6 +406,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.2}
   m_EdgeRadius: 0
+--- !u!114 &1569218955384248832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3787154837807928767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbd97ccee33e304d983bc50e55e6f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damagePoints: 0
+  m_noBlood: 1
+  m_speed: 4
+  m_jumpForce: 7.5
+  player: {fileID: 0}
+  isAttacking: 0
+  followThreshold: 0
+  attackThreshold: 0
 --- !u!1001 &2497663016716740104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -537,30 +535,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8895c12a9d680f438dad7ba882aac90, type: 3}
---- !u!114 &3785466450905026566 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1594792041887462926, guid: a8895c12a9d680f438dad7ba882aac90, type: 3}
-  m_PrefabInstance: {fileID: 2497663016716740104}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &3785466450905026567 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1594792041887462927, guid: a8895c12a9d680f438dad7ba882aac90, type: 3}
   m_PrefabInstance: {fileID: 2497663016716740104}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8886173924572637396 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6483902934658944732, guid: a8895c12a9d680f438dad7ba882aac90, type: 3}
-  m_PrefabInstance: {fileID: 2497663016716740104}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5770e6a806c658040a1cef93107ec0c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

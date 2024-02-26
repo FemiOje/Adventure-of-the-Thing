@@ -1,20 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class HeroKnight : Character
 {
-
     [SerializeField] float m_speed = 4.0f;
     [SerializeField] float m_jumpForce = 7.5f;
     [SerializeField] float m_rollForce = 6.0f;
-    [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
-    [SerializeField] GameObject winUI;
-    [SerializeField] GameObject loseUI;
 
-    private Animator m_animator;
+    private Animator hero_animator;
     private Rigidbody2D m_body2d;
     private Sensor_HeroKnight m_groundSensor;
     private Sensor_HeroKnight m_wallSensorR1;
@@ -31,31 +26,29 @@ public class HeroKnight : Character
     private float m_rollDuration = 8.0f / 14.0f;
     private float m_rollCurrentTime;
 
-    //<femi>
-    private GameManager gameManager;
-    [SerializeField] private float leftBound = -10.0f;
-    public bool isAttacking = false;
-    [SerializeField] private Bandit bandit;
-    private bool hasTakenDamageThisAttack;
+    [Header("Femi's Variables")]
+    [SerializeField] CameraFollow cameraFollow;
+    [SerializeField] float attackCooldown;
+    private float leftBound = -10.0f;
     public HealthBar playerHealthBar;
     public Slider slider;
-    [SerializeField] CameraFollow cameraFollow;
-    [SerializeField] float attackCooldown = 0.1f;
-
-    //</femi>
-
+    public Transform attackPoint;
+    public LayerMask enemyLayer;
+    [SerializeField] float attackRadius;
+    public bool isAttacking = false;
+    private bool hasTakenDamageThisAttack;
+    private float inputX;
 
     private void Awake()
     {
-        m_animator = GetComponent<Animator>();
+        hero_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
     }
+
     void Start()
     {
         health = 100;
-
-        playerHealthBar.SetMaxHealth(health);
-        playerHealthBar.SetHealth(health);
+        damagePoints = 10;
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR1 = transform.Find("WallSensor_R1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
@@ -63,9 +56,14 @@ public class HeroKnight : Character
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //set bounds
+        if (transform.position.x <= leftBound)
+        {
+            transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
+        }
+
         // Increase timer that controls attack combo
         m_timeSinceAttack += Time.deltaTime;
 
@@ -81,20 +79,24 @@ public class HeroKnight : Character
         if (!m_grounded && m_groundSensor.State())
         {
             m_grounded = true;
-            m_animator.SetBool("Grounded", m_grounded);
+            hero_animator.SetBool("Grounded", m_grounded);
         }
 
         //Check if character just started falling
         if (m_grounded && !m_groundSensor.State())
         {
             m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
+            hero_animator.SetBool("Grounded", m_grounded);
         }
 
-        // -- Handle input and movement --
-        float inputX = Input.GetAxis("Horizontal");
 
-        // Swap direction of sprite depending on walk direction
+
+        // -- Handle input and movement -- //
+        inputX = Input.GetAxis("Horizontal");
+
+        if (!m_rolling)
+            m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
+
         if (inputX > 0)
         {
             GetComponent<SpriteRenderer>().flipX = false;
@@ -107,68 +109,43 @@ public class HeroKnight : Character
             m_facingDirection = -1;
         }
 
-        // Move
-        if (!m_rolling)
-            m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
-        //Set AirSpeed in animator
-        m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
 
         // -- Handle Animations --
+
+        //Set AirSpeed in animator
+        hero_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
+
         //Wall Slide
         m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
-        m_animator.SetBool("WallSlide", m_isWallSliding);
+        hero_animator.SetBool("WallSlide", m_isWallSliding);
 
         //Death
         if (Input.GetKeyDown("e") && !m_rolling)
         {
-            m_animator.SetBool("noBlood", m_noBlood);
-            m_animator.SetTrigger("Death");
+            hero_animator.SetBool("noBlood", m_noBlood);
+            hero_animator.SetTrigger("Death");
         }
 
         //Hurt
         else if (Input.GetKeyDown("q") && !m_rolling)
-            m_animator.SetTrigger("Hurt");
-
-        // Attack
-        if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > attackCooldown && !m_rolling)
-        {
-            isAttacking = true;
-            m_currentAttack++;
-
-            if (m_currentAttack > 3)
-                m_currentAttack = 1;
-
-            m_animator.SetTrigger("Attack" + m_currentAttack);
-            m_timeSinceAttack = 0.0f;
-
-            StartCoroutine(ResetAttack());
-
-            //<note>
-
-            //the following is a somewhat improper workaround to the bandit not being able to attack the player
-            //this was done because I was working on a deadline
-            health -= 1;
-            playerHealthBar.SetHealth(health);
-            bandit.GetComponent<Animator>().SetTrigger("Attack");
-            //</note>
-        }
+            hero_animator.SetTrigger("Hurt");
 
         // Block
         else if (Input.GetMouseButtonDown(1) && !m_rolling)
         {
-            m_animator.SetTrigger("Block");
-            m_animator.SetBool("IdleBlock", true);
+            hero_animator.SetTrigger("Block");
+            hero_animator.SetBool("IdleBlock", true);
         }
 
         else if (Input.GetMouseButtonUp(1))
-            m_animator.SetBool("IdleBlock", false);
+            hero_animator.SetBool("IdleBlock", false);
 
         // Roll
         else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
         {
             m_rolling = true;
-            m_animator.SetTrigger("Roll");
+            hero_animator.SetTrigger("Roll");
             m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
         }
 
@@ -176,9 +153,9 @@ public class HeroKnight : Character
         //Jump
         else if (Input.GetKeyDown("space") && m_grounded && !m_rolling)
         {
-            m_animator.SetTrigger("Jump");
+            hero_animator.SetTrigger("Jump");
             m_grounded = false;
-            m_animator.SetBool("Grounded", m_grounded);
+            hero_animator.SetBool("Grounded", m_grounded);
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
         }
@@ -188,7 +165,7 @@ public class HeroKnight : Character
         {
             // Reset timer
             m_delayToIdle = 0.05f;
-            m_animator.SetInteger("AnimState", 1);
+            hero_animator.SetInteger("AnimState", 1);
         }
 
         //Idle
@@ -197,38 +174,29 @@ public class HeroKnight : Character
             // Prevents flickering transitions to idle
             m_delayToIdle -= Time.deltaTime;
             if (m_delayToIdle < 0)
-                m_animator.SetInteger("AnimState", 0);
+                hero_animator.SetInteger("AnimState", 0);
         }
 
-        //make player immobile while attacking
-        if (isAttacking)
+
+        // Handle attack
+        if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > attackCooldown && !m_rolling)
         {
-            inputX = 0.0f;
-            m_body2d.velocity = new Vector2(0, m_body2d.velocity.y);
+            AttackEnemy();
         }
 
+        //Death check
         if (health <= 0)
         {
-            // StartCoroutine(Die());
+            Die();
         }
     }
 
-    private void FixedUpdate()
+    // replace with actual attack implementation
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (bandit != null && (Vector2.Distance(bandit.transform.position, transform.position) <= 1.0f))
+        if (other.gameObject.GetComponent<Bandit>())
         {
-            if (bandit.isAttacking && !hasTakenDamageThisAttack)
-            {
-                m_animator.SetTrigger("Hurt");
-                health -= damagePoints;
-                playerHealthBar.SetHealth(health);
-                hasTakenDamageThisAttack = true;
-            }
-        }
-
-        if (transform.position.x <= leftBound)
-        {
-            transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
+            TakeDamage(damagePoints);
         }
     }
 
@@ -240,51 +208,56 @@ public class HeroKnight : Character
         }
     }
 
-    // Animation Events
-    // Called in slide animation.
-    void AE_SlideDust()
+    private void OnDrawGizmosSelected()
     {
-        Vector3 spawnPosition;
-
-        if (m_facingDirection == 1)
-            spawnPosition = m_wallSensorR2.transform.position;
-        else
-            spawnPosition = m_wallSensorL2.transform.position;
-
-        if (m_slideDust != null)
-        {
-            // Set correct arrow spawn position
-            GameObject dust = Instantiate(m_slideDust, spawnPosition, gameObject.transform.localRotation) as GameObject;
-            // Turn arrow in correct direction
-            dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
-        }
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
 
-    void AE_EndAttack()
+    void AttackEnemy()
     {
-        isAttacking = false;
+        isAttacking = true;
+        
+        //stop movement while attacking enemy
+        inputX = 0.0f;
+        m_body2d.velocity = Vector2.zero;
+
+        m_currentAttack++;
+        if (m_currentAttack > 3)
+            m_currentAttack = 1;
+        hero_animator.SetTrigger("Attack" + m_currentAttack);
+
+
+        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
+        foreach (var enemy in enemiesHit)
+        {
+            enemy.GetComponent<Bandit>().TakeDamage(damagePoints);
+        }
+        StartCoroutine(ResetAttack());
+    }
+
+    protected override void TakeDamage(int attackPoints){
+        base.TakeDamage(attackPoints);
+        hero_animator.SetTrigger("Hurt");
+    }
+
+    protected override void Die()
+    {
+        GetComponent<HeroKnight>().enabled = false;
+        hero_animator.SetTrigger("Death");
+
+        //trigger death sequence
     }
 
     IEnumerator ResetAttack()
     {
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
+        m_timeSinceAttack = 0.0f;
     }
     IEnumerator WinSequence()
     {
         cameraFollow.enabled = false;
         yield return new WaitForSeconds(2);
         Time.timeScale = 0.0f;
-        winUI.SetActive(true);
     }
-
-   void RefillHealth(){
-
-   }
-
-   void Defend(){
-    
-   }
-
-
 }

@@ -82,7 +82,6 @@ public class InkManager : MonoBehaviour
 	{
 		if (choice.text == "ContinueOnPath")
 		{
-			DeductPlayerHealth();
 			RemoveBandits();
 		}
 
@@ -90,11 +89,6 @@ public class InkManager : MonoBehaviour
 		RefreshView();
 	}
 
-	void DeductPlayerHealth()
-	{
-		player.health -= 40;
-		playerHealthBar.SetHealth(player.health - 40);
-	}
 void CreateContentView(string text)
 {
     Text storyText = Instantiate(textPrefab) as Text;
