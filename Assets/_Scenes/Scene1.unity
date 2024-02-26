@@ -1765,6 +1765,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1710112883}
     - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
+      propertyPath: attackCooldown
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: playerHealthBar
       value: 
       objectReference: {fileID: 1797569532}
@@ -2707,11 +2711,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3785466451218407053, guid: 245f878557e6ac146bb8a8684df82721, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3787154837807928767, guid: 245f878557e6ac146bb8a8684df82721, type: 3}
       propertyPath: m_Name
       value: LightBandit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3787154837807928767, guid: 245f878557e6ac146bb8a8684df82721, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3790271564018977085, guid: 245f878557e6ac146bb8a8684df82721, type: 3}
       propertyPath: m_RootOrder
@@ -3543,31 +3551,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1695890652605706556, guid: bb7273ae0391fbb40bfe97b85c98d7e7, type: 3}
   m_PrefabInstance: {fileID: 1695890653258363579}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1810783699 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3787154837807928767, guid: 245f878557e6ac146bb8a8684df82721, type: 3}
-  m_PrefabInstance: {fileID: 1311804335}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1810783706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810783699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fbd97ccee33e304d983bc50e55e6f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePoints: 0
-  m_noBlood: 1
-  m_speed: 4
-  m_jumpForce: 7.5
-  player: {fileID: 0}
-  isAttacking: 0
-  followThreshold: 0
-  attackThreshold: 0
 --- !u!1 &1874371136
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,31 +3679,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1947265234 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3214276989373684933, guid: bbd544ced5ddf7743b1e484bc0c58694, type: 3}
-  m_PrefabInstance: {fileID: 423348883}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1947265241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947265234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fbd97ccee33e304d983bc50e55e6f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damagePoints: 0
-  m_noBlood: 1
-  m_speed: 4
-  m_jumpForce: 7.5
-  player: {fileID: 0}
-  isAttacking: 0
-  followThreshold: 0
-  attackThreshold: 0
 --- !u!1 &1960668321
 GameObject:
   m_ObjectHideFlags: 0

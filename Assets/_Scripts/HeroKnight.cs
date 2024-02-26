@@ -36,7 +36,6 @@ public class HeroKnight : Character
     public LayerMask enemyLayer;
     [SerializeField] float attackRadius;
     public bool isAttacking = false;
-    private bool hasTakenDamageThisAttack;
     private float inputX;
 
     private void Awake()
@@ -58,14 +57,14 @@ public class HeroKnight : Character
 
     void Update()
     {
+        // Increase timer that controls attack combo
+        m_timeSinceAttack += Time.deltaTime;
+
         //set bounds
         if (transform.position.x <= leftBound)
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
         }
-
-        // Increase timer that controls attack combo
-        m_timeSinceAttack += Time.deltaTime;
 
         // Increase timer that checks roll duration
         if (m_rolling)
@@ -107,6 +106,22 @@ public class HeroKnight : Character
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
+        }
+
+
+        // Handle attack
+        if (m_timeSinceAttack > attackCooldown)
+        {
+            if (Input.GetMouseButtonDown(0) && !m_rolling)
+            {
+                AttackEnemy();
+            }
+        }
+
+        //Death check
+        if (health <= 0)
+        {
+            Die();
         }
 
 
@@ -176,22 +191,9 @@ public class HeroKnight : Character
             if (m_delayToIdle < 0)
                 hero_animator.SetInteger("AnimState", 0);
         }
-
-
-        // Handle attack
-        if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > attackCooldown && !m_rolling)
-        {
-            AttackEnemy();
-        }
-
-        //Death check
-        if (health <= 0)
-        {
-            Die();
-        }
     }
 
-    // replace with actual attack implementation
+    // replace with actual bandit attack implementation
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.GetComponent<Bandit>())
@@ -215,27 +217,30 @@ public class HeroKnight : Character
 
     void AttackEnemy()
     {
-        isAttacking = true;
-        
-        //stop movement while attacking enemy
-        inputX = 0.0f;
-        m_body2d.velocity = Vector2.zero;
-
-        m_currentAttack++;
-        if (m_currentAttack > 3)
-            m_currentAttack = 1;
-        hero_animator.SetTrigger("Attack" + m_currentAttack);
-
-
-        Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
-        foreach (var enemy in enemiesHit)
+        if (!isAttacking)
         {
-            enemy.GetComponent<Bandit>().BanditTakeDamage(damagePoints);
+            isAttacking = true;
+
+            // Stop movement while attacking enemy
+
+            m_currentAttack++;
+            if (m_currentAttack > 3)
+                m_currentAttack = 1;
+            hero_animator.SetTrigger("Attack" + m_currentAttack);
+
+            // Deal damage to enemies
+            Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
+            foreach (var enemy in enemiesHit)
+            {
+                enemy.GetComponent<Bandit>().BanditTakeDamage(damagePoints);
+            }
+
+            ResetAttack();
         }
-        StartCoroutine(ResetAttack());
     }
 
-    protected override void TakeDamage(int attackPoints){
+    protected override void TakeDamage(int attackPoints)
+    {
         base.TakeDamage(attackPoints);
         hero_animator.SetTrigger("Hurt");
     }
@@ -248,9 +253,8 @@ public class HeroKnight : Character
         //trigger death sequence
     }
 
-    IEnumerator ResetAttack()
+    void ResetAttack()
     {
-        yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
         m_timeSinceAttack = 0.0f;
     }
