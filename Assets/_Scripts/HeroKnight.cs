@@ -230,7 +230,7 @@ public class HeroKnight : Character
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, enemyLayer);
         foreach (var enemy in enemiesHit)
         {
-            enemy.GetComponent<Bandit>().TakeDamage(damagePoints);
+            enemy.GetComponent<Bandit>().BanditTakeDamage(damagePoints);
         }
         StartCoroutine(ResetAttack());
     }

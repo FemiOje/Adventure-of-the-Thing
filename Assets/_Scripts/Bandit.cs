@@ -68,7 +68,7 @@ public class Bandit : Character
         }
     }
 
-    public void TakeDamage(int attackPoints){
+    public void BanditTakeDamage(int attackPoints){
         base.TakeDamage(attackPoints);
         bandit_animator.SetTrigger("Hurt");
     }
@@ -76,7 +76,6 @@ public class Bandit : Character
     protected override void Die()
     {
         bandit_animator.SetTrigger("Death");
-        m_body2d.velocity = Vector3.zero;
         StartCoroutine(RemoveEnemy());
     }
 
