@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 2954181336601895002}
   - component: {fileID: 8942925490989933264}
   - component: {fileID: 9117128348835321587}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HeroKnight
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -153,15 +153,14 @@ MonoBehaviour:
   m_rollForce: 6
   m_slideDust: {fileID: 1038168246061390451, guid: 8b8c8cc6774fb074cb9139cc631b108e, type: 3}
   cameraFollow: {fileID: 0}
-  attackCooldown: 0.1
+  attackCooldown: 0.3
   playerHealthBar: {fileID: 0}
   slider: {fileID: 0}
   attackPoint: {fileID: 2034794026007450813}
+  attackRadius: 1.68
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  attackRadius: 1.68
-  isAttacking: 0
 --- !u!95 &2655505060201611074
 Animator:
   serializedVersion: 5

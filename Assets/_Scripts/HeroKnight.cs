@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class HeroKnight : Character
 {
-    [SerializeField] float m_speed = 4.0f;
-    [SerializeField] float m_jumpForce = 7.5f;
-    [SerializeField] float m_rollForce = 6.0f;
-    [SerializeField] GameObject m_slideDust;
+    [SerializeField] private float m_speed = 4.0f;
+    [SerializeField] private float m_jumpForce = 7.5f;
+    [SerializeField] private float m_rollForce = 6.0f;
+    [SerializeField] private GameObject m_slideDust;
 
     private Animator hero_animator;
     private Rigidbody2D m_body2d;
+    private SpriteRenderer m_spriteRenderer;
     private Sensor_HeroKnight m_groundSensor;
     private Sensor_HeroKnight m_wallSensorR1;
     private Sensor_HeroKnight m_wallSensorR2;
@@ -27,21 +29,23 @@ public class HeroKnight : Character
     private float m_rollCurrentTime;
 
     [Header("Femi's Variables")]
-    [SerializeField] CameraFollow cameraFollow;
+    [SerializeField] private CameraFollow cameraFollow;
     [SerializeField] float attackCooldown;
     private float leftBound = -10.0f;
     public HealthBar playerHealthBar;
     public Slider slider;
-    public Transform attackPoint;
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRadius;
     public LayerMask enemyLayer;
-    [SerializeField] float attackRadius;
-    public bool isAttacking = false;
+    private bool isAttacking = false;
     private float inputX;
+    public bool isPlayerDead;
 
     private void Awake()
     {
         hero_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Start()
@@ -98,13 +102,13 @@ public class HeroKnight : Character
 
         if (inputX > 0)
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+           m_spriteRenderer.flipX = false;
             m_facingDirection = 1;
         }
 
         else if (inputX < 0)
         {
-            GetComponent<SpriteRenderer>().flipX = true;
+            m_spriteRenderer.flipX = true;
             m_facingDirection = -1;
         }
 
@@ -114,7 +118,7 @@ public class HeroKnight : Character
         {
             if (Input.GetMouseButtonDown(0) && !m_rolling)
             {
-                AttackEnemy();
+                Attack();
             }
         }
 
@@ -193,15 +197,6 @@ public class HeroKnight : Character
         }
     }
 
-    // replace with actual bandit attack implementation
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.GetComponent<Bandit>())
-        {
-            TakeDamage(damagePoints);
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Finish"))
@@ -215,7 +210,7 @@ public class HeroKnight : Character
         Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
 
-    void AttackEnemy()
+    protected override void Attack()
     {
         if (!isAttacking)
         {
@@ -239,7 +234,7 @@ public class HeroKnight : Character
         }
     }
 
-    protected override void TakeDamage(int attackPoints)
+    public void PlayerTakeDamage(int attackPoints)
     {
         base.TakeDamage(attackPoints);
         hero_animator.SetTrigger("Hurt");
@@ -247,17 +242,19 @@ public class HeroKnight : Character
 
     protected override void Die()
     {
+        isPlayerDead = true;
         GetComponent<HeroKnight>().enabled = false;
         hero_animator.SetTrigger("Death");
 
         //trigger death sequence
     }
 
-    void ResetAttack()
+    private void ResetAttack()
     {
         isAttacking = false;
         m_timeSinceAttack = 0.0f;
     }
+
     IEnumerator WinSequence()
     {
         cameraFollow.enabled = false;

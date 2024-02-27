@@ -1765,10 +1765,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1710112883}
     - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
-      propertyPath: attackCooldown
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9043920546160527475, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
       propertyPath: playerHealthBar
       value: 
       objectReference: {fileID: 1797569532}

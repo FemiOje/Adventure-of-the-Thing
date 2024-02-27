@@ -191,11 +191,11 @@ public class Enemy : Character
 
         
 
-        if (distanceToPlayer <= hitDistance && player.isAttacking && !hasTakenDamageThisAttack)
-        {
-            previousState = currentState;
-            currentState = EnemyStates.Hurt;
-        }
+        // if (distanceToPlayer <= hitDistance && player.isAttacking && !hasTakenDamageThisAttack)
+        // {
+        //     previousState = currentState;
+        //     currentState = EnemyStates.Hurt;
+        // }
 
         if (health <= 0)
         {

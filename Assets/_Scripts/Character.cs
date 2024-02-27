@@ -12,6 +12,15 @@ public class Character : MonoBehaviour
         health = maxHealth;
     }
 
+    protected virtual void Attack(){
+
+    }
+
+    protected virtual void Attack(HeroKnight heroKnight){
+        
+    }
+    
+
     protected virtual void TakeDamage(int attackPoints)
     {
         health -= attackPoints;
