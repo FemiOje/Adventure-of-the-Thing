@@ -33,7 +33,9 @@ public class HeroKnight : Character
     [SerializeField] float attackCooldown;
     private float leftBound = -10.0f;
     public HealthBar playerHealthBar;
-    public Slider slider;
+    // public Slider slider;
+    // public Gradient gradient;
+    // public Image fill;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRadius;
     public LayerMask enemyLayer;
@@ -57,6 +59,9 @@ public class HeroKnight : Character
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+
+        slider.value = health;
+        // fill.color = gradient.Evaluate(slider.normalizedValue);
     }
 
     void Update()
@@ -102,7 +107,7 @@ public class HeroKnight : Character
 
         if (inputX > 0)
         {
-           m_spriteRenderer.flipX = false;
+            m_spriteRenderer.flipX = false;
             m_facingDirection = 1;
         }
 

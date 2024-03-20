@@ -71,6 +71,7 @@ public class Bandit : Character
         if ((timeSinceAttack > attackCooldown) && (playerHit != null))
         {
             Attack(player);
+            ResetAttack();
         }
 
         if (health <= 0)
@@ -92,8 +93,6 @@ public class Bandit : Character
             {
                 playerHit.GetComponent<HeroKnight>().PlayerTakeDamage(damagePoints);
             }
-
-            ResetAttack();
         }
     }
 
