@@ -245,6 +245,12 @@ public class HeroKnight : Character
         hero_animator.SetTrigger("Hurt");
     }
 
+    public void RefillHealth(){
+        health = 100;
+        slider.value = health;
+        fill.color = gradient.Evaluate(slider.normalizedValue);
+    }
+
     protected override void Die()
     {
         isPlayerDead = true;
