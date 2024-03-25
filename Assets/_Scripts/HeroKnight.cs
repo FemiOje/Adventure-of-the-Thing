@@ -53,7 +53,6 @@ public class HeroKnight : Character
     void Start()
     {
         health = 100;
-        damagePoints = 10;
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR1 = transform.Find("WallSensor_R1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();

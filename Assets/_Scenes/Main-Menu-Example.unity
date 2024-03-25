@@ -397,7 +397,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1890261960}
   - {fileID: 1530752718}
   - {fileID: 1653852607}
   - {fileID: 579830187}
@@ -702,7 +701,7 @@ RectTransform:
   - {fileID: 1316729379}
   - {fileID: 1295133490}
   m_Father: {fileID: 158002273}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -740,7 +739,7 @@ RectTransform:
   - {fileID: 1547470968}
   - {fileID: 1525049863}
   m_Father: {fileID: 158002273}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2160,7 +2159,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1530752718
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2176,7 +2175,7 @@ RectTransform:
   - {fileID: 1249739595}
   - {fileID: 78647242}
   m_Father: {fileID: 158002273}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2348,7 +2347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1653852607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2365,7 +2364,7 @@ RectTransform:
   - {fileID: 1841371695}
   - {fileID: 2117623146}
   m_Father: {fileID: 158002273}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2602,98 +2601,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1841371694}
   m_CullTransparentMesh: 1
---- !u!1 &1890261959
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1890261960}
-  - component: {fileID: 1890261962}
-  - component: {fileID: 1890261961}
-  m_Layer: 5
-  m_Name: Credits Text Original
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1890261960
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890261959}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 158002273}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: 0}
-  m_SizeDelta: {x: 203.24207, y: 100.82}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1890261961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890261959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 3
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
-    m_Alignment: 3
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "1. Character Asset plus animations(Hero Knight - Pixel Art) from Sven
-    Thole\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/characters/hero-knight-pixel-art-165188\r\n\r\n2.
-    Bandits Asset(Bandits- Pixel Art) from Sven Thole\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/characters/bandits-pixel-art-104130\r\n\r\n3.
-    UI: \r\n\t2D Simple UI Pack by OArielG\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/gui/icons/2d-simple-ui-pack-218050\r\n\r\n\tFree
-    Pixel Font - Thaleah by Tiny Worlds\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/fonts/free-pixel-font-thaleah-140059\r\n\r\n\tFree
-    Pixel Art Font Pack: 'BlackBold' and 'GreyBold'\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/fonts/free-pixel-art-font-pack-blackbold-and-greybold-181381\r\n\r\n\tHealth
-    Bar and Heart Sprites by Brackeys\r\n\tGithub Repo: https://github.com/Brackeys/Health-Bar\r\n\r\n4.
-    Environment\r\n\tPlatform tile pack by Evolvers\r\n\tAsset Store: https://assetstore.unity.com/packages/2d/environments/platform-tile-pack-204101\r\n\r\n5.
-    Background\r\n\tFree 2D Cartoon Parallax Background by CPasteGame\r\n\tAsset
-    Store: https://assetstore.unity.com/packages/2d/environments/free-2d-cartoon-parallax-background-205812\r\n\r\n6.
-    Treasure Chest\r\n\tPixel Chests Pack - Animated by karsiori\r\n\tAsset Store:
-    https://assetstore.unity.com/packages/2d/environments/pixel-chests-pack-animated-263923\r\n\r\n7.
-    Music- 8Bit Music- 062022, by GWriterStudio\r\n\tAsset Store: https://assetstore.unity.com/packages/audio/music/8bit-music-062022-225623"
---- !u!222 &1890261962
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890261959}
-  m_CullTransparentMesh: 1
 --- !u!1 &1936796585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,7 +2636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.0714977, y: -2.2320943}
+  m_AnchoredPosition: {x: -3.0715027, y: -2.2320938}
   m_SizeDelta: {x: 203.24207, y: 100.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1936796587
@@ -2754,7 +2661,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 3
+    m_FontSize: 5
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2

@@ -318,7 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbd97ccee33e304d983bc50e55e6f16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePoints: 10
+  damagePoints: 5
   m_noBlood: 1
   slider: {fileID: 1594792043119011960}
   gradient:

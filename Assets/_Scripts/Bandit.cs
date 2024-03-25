@@ -17,7 +17,7 @@ public class Bandit : Character
 
     [SerializeField] private LayerMask playerLayer;
     private Collider2D playerHit;
-    private float attackCooldown = 1.0f;
+    private float attackCooldown = 0.5f;
     private bool isAttacking = false;
     private bool isDead = false;
     private float timeSinceAttack;
@@ -32,7 +32,6 @@ public class Bandit : Character
     void Start()
     {
         health = 100;
-        damagePoints = 10;
     }
 
     void Update()
