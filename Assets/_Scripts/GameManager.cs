@@ -1,12 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public enum GameState {
+        Win,
+        InGame,
+        Lose
+    }
+
+    public static GameState CurrentGameState;
+
+    private static bool isPlayerDead;
+    public static event Action OnPlayerWin;
+    public static event Action OnPlayerLose;
 
     private void Awake()
     {
@@ -15,9 +26,32 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
-        // DontDestroyOnLoad(gameObject);
+
+        isPlayerDead = false;
+        SetCurrentGameState(GameState.InGame);
+    }
+
+    private void OnEnable() {
+        OnPlayerWin += PlayerWin;
+        OnPlayerLose += PlayerLose;
+    }
+
+
+    private void Update() {
+        switch (CurrentGameState){
+            case GameState.Win:
+                // Win screen logic
+                OnPlayerWin?.Invoke();
+                break;
+            case GameState.InGame:
+                // In-game logic
+                break;
+            case GameState.Lose:
+                // Lose screen logic
+                OnPlayerLose?.Invoke();
+                break;
+        }
     }
 
     public void LoadScene1()
@@ -41,8 +75,29 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void Quit()
+    public static void SetCurrentGameState(GameState newState) {
+        CurrentGameState = newState;
+    }
+
+    private void PlayerWin()
     {
-        Application.Quit();
+        Debug.Log("Player wins!");
+        Time.timeScale = 0;
+    }
+
+    private void PlayerLose()
+    {
+        isPlayerDead = true;
+        GetComponent<HeroKnight>().enabled = false;
+        Debug.Log("Player loses!");
+    }
+
+    public static bool IsPlayerDead() {
+        return isPlayerDead;
+    }
+
+    private void OnDisable() {
+        OnPlayerWin -= PlayerWin;
+        OnPlayerLose -= PlayerLose;
     }
 }

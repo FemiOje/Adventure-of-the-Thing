@@ -8,10 +8,10 @@ public class Heart : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        HeroKnight _hero = other.gameObject.GetComponent<HeroKnight>();
+        if (_hero != null)
         {
-            player.RefillHealth();
-
+            _hero.RefillHealth();
             Destroy(gameObject);
         }
     }

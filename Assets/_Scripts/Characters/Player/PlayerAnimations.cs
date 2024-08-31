@@ -20,6 +20,14 @@ public class PlayerAnimations : MonoBehaviour
 
     private float inputX;
 
+    private void OnEnable() {
+        GameManager.OnPlayerLose += PlayLoseAnimation;
+    }
+
+    private void OnDisable() {
+        GameManager.OnPlayerLose -= PlayLoseAnimation;
+    }
+
     private void Start()
     {
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
@@ -97,5 +105,9 @@ public class PlayerAnimations : MonoBehaviour
                 hero_animator.SetInteger("AnimState", 0);
         }
 
+    }
+
+    private void PlayLoseAnimation () {
+        hero_animator.SetTrigger("Death");
     }
 }

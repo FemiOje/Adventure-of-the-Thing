@@ -16,7 +16,6 @@ public class HeroKnight : Character
     private int m_currentAttack = 0;
     private float m_timeSinceAttack = 0.0f;
 
-
     [SerializeField] private CameraFollow cameraFollow;
     [SerializeField] float attackCooldown;
     private float leftBound = -10.0f;
@@ -26,7 +25,6 @@ public class HeroKnight : Character
     public LayerMask enemyLayer;
     private bool isAttacking = false;
     private float inputX;
-    public bool isPlayerDead;
 
     private void Awake()
     {
@@ -45,7 +43,7 @@ public class HeroKnight : Character
     {
         m_timeSinceAttack += Time.deltaTime;
 
-        //set bounds
+        // Set bounds
         if (transform.position.x <= leftBound)
         {
             transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
@@ -60,18 +58,13 @@ public class HeroKnight : Character
                 AttackEnemy();
             }
         }
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Finish"))
         {
-            StartCoroutine(WinSequence());
+            CheckWin();
         }
     }
 
@@ -162,6 +155,10 @@ public class HeroKnight : Character
     public void TakeDamage()
     {
         currentHealth -= damagePoints;
+        if (currentHealth <= 0 && !GameManager.IsPlayerDead())
+        {
+            GameManager.SetCurrentGameState(GameManager.GameState.Lose);
+        }
     }
 
     public void PlayHurtAnimation()
@@ -176,17 +173,18 @@ public class HeroKnight : Character
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
 
-    public void Die()
+    private void CheckWin()
     {
-        isPlayerDead = true;
-        GetComponent<HeroKnight>().enabled = false;
-        hero_animator.SetTrigger("Death");
+        Bandit _bandit = FindAnyObjectByType<Bandit>();
+        if (_bandit != null)
+        {
+            // If there are still bandits, the player has not won yet
+            Debug.Log("You must defeat all bandits to win");
+            return;
+        }
+        GameManager.SetCurrentGameState(GameManager.GameState.Win);
     }
 
-    IEnumerator WinSequence()
-    {
-        cameraFollow.enabled = false;
-        yield return new WaitForSeconds(2);
-        Time.timeScale = 0.0f;
-    }
+
+
 }

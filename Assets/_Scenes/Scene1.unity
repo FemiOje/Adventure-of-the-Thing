@@ -3573,6 +3573,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 380119466, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 684538222, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
       propertyPath: canvas
       value: 
@@ -3585,6 +3589,10 @@ PrefabInstance:
       propertyPath: playerHealthBar
       value: 
       objectReference: {fileID: 1797569532}
+    - target: {fileID: 1052368711, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1394839024, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
       propertyPath: canvas
       value: 
@@ -3609,6 +3617,10 @@ PrefabInstance:
       propertyPath: playerHealthBar
       value: 
       objectReference: {fileID: 1797569532}
+    - target: {fileID: 1406811660, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1560532760, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
       propertyPath: m_IsActive
       value: 1
