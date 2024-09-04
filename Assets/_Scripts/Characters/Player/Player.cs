@@ -3,34 +3,45 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class HeroKnight : Character
+public class Player : Character
 {
-    [SerializeField] private float m_speed = 4.0f;
-    [SerializeField] private float m_jumpForce = 7.5f;
+    protected Rigidbody2D m_body2d;
+    [SerializeField] public float m_speed = 4.0f;
+    [SerializeField] protected float m_jumpForce = 7.5f;
     [SerializeField] private float m_rollForce = 6.0f;
     [SerializeField] private GameObject m_slideDust;
 
     private Animator hero_animator;
-    private Rigidbody2D m_body2d;
-    private SpriteRenderer m_spriteRenderer;
     private int m_currentAttack = 0;
     private float m_timeSinceAttack = 0.0f;
-
-    [SerializeField] private CameraFollow cameraFollow;
     [SerializeField] float attackCooldown;
-    private float leftBound = -10.0f;
     public HealthBar playerHealthBar;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRadius;
     public LayerMask enemyLayer;
     private bool isAttacking = false;
-    private float inputX;
+
+    private void OnPlayerWin()
+    {
+        StartCoroutine("HandlePlayerWin");
+    }
+
+    IEnumerator HandlePlayerWin()
+    {
+        yield return new WaitForSeconds(2);
+        enabled = false;
+    }
+    private void OnEnable()
+    {
+        GameManager.OnPlayerWin += OnPlayerWin;
+        GameManager.OnPlayerLose += DisablePlayer;
+    }
+
 
     private void Awake()
     {
         hero_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
-        m_spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Start()
@@ -42,14 +53,6 @@ public class HeroKnight : Character
     void Update()
     {
         m_timeSinceAttack += Time.deltaTime;
-
-        // Set bounds
-        if (transform.position.x <= leftBound)
-        {
-            transform.position = new Vector3(leftBound, transform.position.y, transform.position.z);
-        }
-
-        Move();
 
         if (m_timeSinceAttack > attackCooldown)
         {
@@ -64,29 +67,7 @@ public class HeroKnight : Character
     {
         if (other.CompareTag("Finish"))
         {
-            CheckWin();
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
-    }
-
-    public void Move()
-    {
-        inputX = Input.GetAxis("Horizontal");
-
-        m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
-
-        if (inputX > 0)
-        {
-            m_spriteRenderer.flipX = false;
-        }
-
-        if (inputX < 0)
-        {
-            m_spriteRenderer.flipX = true;
+            CheckForWin();
         }
     }
 
@@ -143,7 +124,7 @@ public class HeroKnight : Character
         return closestBandit;
     }
 
-    public void UpdateSlider()
+    public void UpdateSlider() //move to player health or ui script
     {
         if (slider != null)
         {
@@ -152,28 +133,39 @@ public class HeroKnight : Character
         }
     }
 
+    // public void TakeDamage()
+    // {
+    //     currentHealth -= damagePoints;
+    //     if (currentHealth <= 0 && !GameManager.IsPlayerDead())
+    //     {
+    //         GameManager.UpdateGameState(GameManager.GameState.Lose);
+    //     }
+    // }
+
     public void TakeDamage()
     {
         currentHealth -= damagePoints;
+        Debug.Log("Player took damage. Current Health: " + currentHealth);
         if (currentHealth <= 0 && !GameManager.IsPlayerDead())
         {
-            GameManager.SetCurrentGameState(GameManager.GameState.Lose);
+            GameManager.UpdateGameState(GameManager.GameState.Lose);
         }
     }
+
 
     public void PlayHurtAnimation()
     {
         hero_animator.SetTrigger("Hurt");
     }
 
-    public void RefillHealth()
+    public void RefillHealth() // move to health script
     {
         currentHealth = 100;
         slider.value = currentHealth;
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
 
-    private void CheckWin()
+    private void CheckForWin()
     {
         Bandit _bandit = FindAnyObjectByType<Bandit>();
         if (_bandit != null)
@@ -182,9 +174,18 @@ public class HeroKnight : Character
             Debug.Log("You must defeat all bandits to win");
             return;
         }
-        GameManager.SetCurrentGameState(GameManager.GameState.Win);
+        GameManager.UpdateGameState(GameManager.GameState.Win);
     }
 
+    private void DisablePlayer()
+    {
+        enabled = false;
+    }
 
+    private void OnDisable()
+    {
+        GameManager.OnPlayerWin -= OnPlayerWin;
+        GameManager.OnPlayerLose -= DisablePlayer;
+    }
 
 }

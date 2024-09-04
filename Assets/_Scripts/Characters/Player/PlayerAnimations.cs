@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
@@ -20,14 +21,42 @@ public class PlayerAnimations : MonoBehaviour
 
     private float inputX;
 
-    private void OnEnable() {
+
+    private void OnEnable()
+    {
+        GameManager.OnPlayerWin += OnPlayerWin;
         GameManager.OnPlayerLose += PlayLoseAnimation;
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
+        GameManager.OnPlayerWin -= OnPlayerWin;
         GameManager.OnPlayerLose -= PlayLoseAnimation;
     }
 
+    private void OnPlayerWin()
+    {
+        StartCoroutine("HandlePlayerWin");
+    }
+
+    IEnumerator HandlePlayerWin()
+    {
+        TransitionToIdle();
+        yield return new WaitForSeconds(2);
+        enabled = false;
+    }
+
+    private void PlayLoseAnimation()
+    {
+        hero_animator.SetTrigger("Death");
+    }
+
+    private void TransitionToIdle()
+    {
+        m_delayToIdle -= Time.deltaTime;
+        if (m_delayToIdle < 0)
+            hero_animator.SetInteger("AnimState", 0);
+    }
     private void Start()
     {
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
@@ -68,8 +97,6 @@ public class PlayerAnimations : MonoBehaviour
             hero_animator.SetBool("Grounded", m_grounded);
         }
 
-        // -- Handle Animations --
-
         //Set AirSpeed in animator
         hero_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
 
@@ -99,15 +126,7 @@ public class PlayerAnimations : MonoBehaviour
         //Idle
         else
         {
-            // Prevents flickering transitions to idle
-            m_delayToIdle -= Time.deltaTime;
-            if (m_delayToIdle < 0)
-                hero_animator.SetInteger("AnimState", 0);
+            TransitionToIdle();
         }
-
-    }
-
-    private void PlayLoseAnimation () {
-        hero_animator.SetTrigger("Death");
     }
 }

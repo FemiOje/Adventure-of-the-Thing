@@ -3651,12 +3651,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960668321}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f78d6bc8b9882e04e93c862c3a1be9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundNum: 0
+  backgroundNum: 3
   Layer_Sprites:
   - {fileID: 21300000, guid: ab01f61b3c6a46c4587ab9734c601f5a, type: 3}
   - {fileID: 21300000, guid: 151eef41825813d4f96dd0d4c8ecdc2f, type: 3}
@@ -3797,14 +3797,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 138519677, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
-      propertyPath: m_Size.x
-      value: 29.05423
-      objectReference: {fileID: 0}
-    - target: {fileID: 138519677, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
-      propertyPath: m_Offset.x
-      value: 8.958176
-      objectReference: {fileID: 0}
     - target: {fileID: 380119466, guid: a08f84c2f7fec75499d54298209ec9ca, type: 3}
       propertyPath: m_Enabled
       value: 1

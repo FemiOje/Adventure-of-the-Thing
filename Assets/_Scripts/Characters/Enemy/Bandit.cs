@@ -1,18 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using System;
 
 public class Bandit : Character
 {
     [SerializeField] private float m_speed = 4.0f;
     [SerializeField] private float m_jumpForce = 7.5f;
     private Animator bandit_animator;
-    private Rigidbody2D m_body2d;
     private Sensor_Bandit m_groundSensor;
     private bool m_grounded = false;
-    private HeroKnight _player;
-    [SerializeField] private float followThreshold;
+    private Player _player;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRadius;
 
@@ -25,13 +21,7 @@ public class Bandit : Character
     private void Awake()
     {
         bandit_animator = GetComponent<Animator>();
-        m_body2d = GetComponent<Rigidbody2D>();
-        _player = FindObjectOfType<HeroKnight>();
-    }
-
-    private void Start()
-    {
-        currentHealth = 100;
+        _player = FindObjectOfType<Player>();
     }
 
     private void Update()
@@ -44,22 +34,36 @@ public class Bandit : Character
             bandit_animator.SetBool("Grounded", m_grounded);
         }
 
-        // Check if the bandit can attack the player
-        _hit = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
-        if (timeSinceAttack >= attackCooldown && _hit != null && !isDead)
+        if (CanAttackPlayer())
         {
             AttackPlayer();
         }
     }
 
-    private void AttackPlayer()
+    private bool CanAttackPlayer()
+    {
+        _hit = Physics2D.OverlapCircle(attackPoint.position, attackRadius, playerLayer);
+        return timeSinceAttack >= attackCooldown && _hit != null && !isDead && !GameManager.IsPlayerDead();
+    }
+
+    // private void AttackPlayer()
+    // {
+    //     bandit_animator.SetTrigger("Attack");
+    //     _player.PlayHurtAnimation();
+    //     _player.TakeDamage();
+    //     _player.UpdateSlider();
+    //     timeSinceAttack = 0f;
+    // }
+
+    public void AttackPlayer()
     {
         bandit_animator.SetTrigger("Attack");
+        _player.TakeDamage(); // Ensure the damage dealt is appropriate
         _player.PlayHurtAnimation();
-        _player.TakeDamage();
         _player.UpdateSlider();
         timeSinceAttack = 0f;
     }
+
 
     public void PlayHurtAnimation()
     {
@@ -97,7 +101,8 @@ public class Bandit : Character
         Destroy(gameObject);
     }
 
-    public bool IsDead() {
+    public bool IsDead()
+    {
         return isDead;
     }
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Heart : MonoBehaviour
 {
-    [SerializeField] HeroKnight player;
+    [SerializeField] Player player;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        HeroKnight _hero = other.gameObject.GetComponent<HeroKnight>();
+        Player _hero = other.gameObject.GetComponent<Player>();
         if (_hero != null)
         {
             _hero.RefillHealth();

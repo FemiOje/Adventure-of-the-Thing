@@ -1,10 +1,14 @@
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class CameraFollowPlayer : MonoBehaviour
 {
 
-    [SerializeField]private Transform target;
+    [SerializeField] private Transform target;
     private float smoothSpeed = 0.125f;
+
+    private void OnEnable() {
+        GameManager.OnPlayerWin += DisablePlayerFollow;
+    }
 
     void LateUpdate()
     {
@@ -16,5 +20,14 @@ public class CameraFollow : MonoBehaviour
 
             transform.position = smoothedPosition;
         }
+    }
+
+    private void DisablePlayerFollow()
+    {
+        enabled = false;
+    }
+
+    private void OnDisable() {
+        GameManager.OnPlayerWin -= DisablePlayerFollow;
     }
 }

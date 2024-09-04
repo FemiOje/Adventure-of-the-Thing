@@ -9,7 +9,7 @@ public class InkManager : MonoBehaviour
 
 	private int textCount = -7;
 	[SerializeField] HealthBar playerHealthBar;
-	[SerializeField] HeroKnight player;
+	[SerializeField] Player player;
 	Image image;
 	public static event Action<Story> OnCreateStory;
 
