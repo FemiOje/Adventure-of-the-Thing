@@ -29,7 +29,7 @@ public class Player : Character
     IEnumerator HandlePlayerWin()
     {
         yield return new WaitForSeconds(2);
-        enabled = false;
+        Time.timeScale = 0;
     }
     private void OnEnable()
     {
@@ -42,6 +42,7 @@ public class Player : Character
     {
         hero_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
+        Time.timeScale = 1;
     }
 
     void Start()
@@ -60,14 +61,6 @@ public class Player : Character
             {
                 AttackEnemy();
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Finish"))
-        {
-            CheckForWin();
         }
     }
 
@@ -133,25 +126,14 @@ public class Player : Character
         }
     }
 
-    // public void TakeDamage()
-    // {
-    //     currentHealth -= damagePoints;
-    //     if (currentHealth <= 0 && !GameManager.IsPlayerDead())
-    //     {
-    //         GameManager.UpdateGameState(GameManager.GameState.Lose);
-    //     }
-    // }
-
     public void TakeDamage()
     {
         currentHealth -= damagePoints;
-        Debug.Log("Player took damage. Current Health: " + currentHealth);
         if (currentHealth <= 0 && !GameManager.IsPlayerDead())
         {
             GameManager.UpdateGameState(GameManager.GameState.Lose);
         }
     }
-
 
     public void PlayHurtAnimation()
     {
@@ -165,18 +147,6 @@ public class Player : Character
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
 
-    private void CheckForWin()
-    {
-        Bandit _bandit = FindAnyObjectByType<Bandit>();
-        if (_bandit != null)
-        {
-            // If there are still bandits, the player has not won yet
-            Debug.Log("You must defeat all bandits to win");
-            return;
-        }
-        GameManager.UpdateGameState(GameManager.GameState.Win);
-    }
-
     private void DisablePlayer()
     {
         enabled = false;
@@ -187,5 +157,4 @@ public class Player : Character
         GameManager.OnPlayerWin -= OnPlayerWin;
         GameManager.OnPlayerLose -= DisablePlayer;
     }
-
 }

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public static event Action OnPlayerLose;
     public static event Action OnGamePaused;
     public static event Action OnGameResumed;
+    private bool _isHandlingWin = false;
+
 
 
     private void OnEnable()
@@ -53,12 +55,17 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Already at the last level.");
         }
+
+        _isHandlingWin = false;
     }
 
     void HandlePlayerWin()
     {
-        Debug.Log("Player Won. Handling win...");
-        StartCoroutine(LoadNextLevel());
+        if (!_isHandlingWin)
+        {
+            _isHandlingWin = true;
+            StartCoroutine(LoadNextLevel());
+        }
     }
 
     private void Start()
@@ -68,43 +75,20 @@ public class GameManager : MonoBehaviour
         UpdateGameState(GameState.Resumed);
     }
 
-
-    // void HandlePlayerWin()
-    // {
-    //     StartCoroutine("LoadNextLevel");
-    // }
-
-    // IEnumerator LoadNextLevel()
-    // {
-    //     bool _isNotLastLevel = SceneManager.GetActiveScene().buildIndex < SceneManager.sceneCountInBuildSettings - 1;
-    //     if (_isNotLastLevel)
-    //     {
-    //         yield return new WaitForSeconds(2);
-    //         int _nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-    //         SceneManager.LoadScene(_nextSceneIndex);
-    //     }
-    // }
-
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject); // Prevent destruction when loading new scenes
         }
         else if (Instance != this)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Destroy this object if another instance already exists
         }
         isPlayerDead = false;
     }
-
-    // private void Start()
-    // {
-    //     UpdateGameState(GameState.Resumed);
-    // }
-
-
+    
     public static void UpdateGameState(GameState _newState)
     {
         SetCurrentGameState(_newState);
@@ -165,12 +149,6 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void LoadMainMenu()
-    {
-        Debug.Log("Loading main menu");
-        SceneManager.LoadScene(0);
     }
 
     private void OnDisable()
